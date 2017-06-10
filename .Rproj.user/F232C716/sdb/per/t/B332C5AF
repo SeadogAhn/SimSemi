@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "exportPattern(\"^[[:alpha:]]+\")\nimportFrom(Rcpp, evalCpp)\nuseDynLib(SimSemi)\n",
+    "created" : 1497074549041.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2955241142",
+    "id" : "B332C5AF",
+    "lastKnownWriteTime" : 1496552555,
+    "last_content_update" : 1496552555,
+    "path" : "~/Documents/ProjectDir/R/SimSemi/NAMESPACE",
+    "project_path" : "NAMESPACE",
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_namespace"
+}
