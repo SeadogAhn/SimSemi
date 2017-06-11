@@ -46,5 +46,5 @@ CLot& SIMSEMI::CMachine::proceedLot(CLot& lot)
 
 const double SIMSEMI::CMachine::getSummaryUtilizationMachine()
 {
-	return 0.;
+
 }

@@ -10,7 +10,7 @@ CMutexAttribute* SIMSEMI::CMutexAttribute::sOnly_ = 0;
 CMutexAttribute& SIMSEMI::CMutexAttribute::gOnly ()
 {
 	if (!sOnly_)
-		sOnly_ = new CMutexAttribute ();
+		sOnly_ = new CmutexAttribute ();
 	return *sOnly_;
 }
 

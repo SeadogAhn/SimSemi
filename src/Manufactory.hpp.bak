@@ -5,7 +5,6 @@
 #include "Types.hpp"
 // standard libraries
 #include <vector>
-#include <map>
 #include <utility>
 
 //! the namespace of the simulation for the manufacturing semiconductor process
@@ -15,7 +14,6 @@ namespace SIMSEMI {
     {
     public:
 		// defined type
-		typedef std::vector<std::pair<CMachine, enumMachineStatus> > MachineContainer;
 		typedef std::vector<std::pair<CMachine, enumMachineStatus> > MachineContainer;
 
         //! default constructor

@@ -17,5 +17,5 @@ void SIMSEMI::CLot::setWaferYield()
 
 void SIMSEMI::CLot::init()
 {
-	Wafers_.resize(25);
+Wafers_.resize(25);
 }

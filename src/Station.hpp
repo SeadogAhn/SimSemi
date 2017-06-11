@@ -1,23 +1,22 @@
-#ifndef __STOCKER_H__
-#define __STOCKER_H__
+#ifndef __STATION_H__
+#define __STATION_H__
 
 // SIMSEMI headers
-#include "Types.hpp"
 #include "Lot.hpp"
 // standard libraries
-#include <map>
+#include <queue>
 
 //! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
     //! stocker base class
-    class CStockerBase
+    class CStation
     {
     public:
-		typedef std::map<std::string, CLot> LotContainer;
-        CStockerBase();
-        virtual ~CStockerBase();
+		typedef std::queue<CLot> LotContainer;
+        CStation();
+        virtual ~CStation();
 
-        const CLot pop() const { return Lots_.pop(); }
+        const CLot& pop() const { return Lots_.pop(); }
         void push(const CLot& lot) { Lots_.push(lot); }
 
     protected:
@@ -29,4 +28,4 @@ namespace SIMSEMI {
 
 }
 
-#endif //__STOCKER_H__
+#endif //__STATION_H__

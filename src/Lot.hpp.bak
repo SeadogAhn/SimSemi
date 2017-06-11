@@ -20,14 +20,14 @@ namespace SIMSEMI {
 		/*! construct and initialize a object by SProductAttributeType
 			\param prodattr Attribute of the Product
 		*/
-		CLot(const ProductAttributeType& prodattr);
+		CLot(const SProductAttributeType& prodattr);
         //! destructor
         virtual ~CLot();
         //! set product's attribute
 		/*!
 			\param prodattr Attribute of the Product
 		*/
-		void setProductAttribute(const ProductAttributeType& prodattr);
+		void setProductAttribute(const SProductAttributeType& prodattr);
 		//! get wafer count in a LOT
         size_t getWaferCount() const { return Wafers_.size(); }
 		//! set wafers' yield by a tester(a machine)

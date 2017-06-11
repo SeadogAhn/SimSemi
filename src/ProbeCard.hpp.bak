@@ -16,7 +16,7 @@ namespace SIMSEMI {
         //! default constructor
         CProbeCard();
 		//! copy constructor
-		CProbeCard( const CProbeCard& rhs ) { ProbCardInfo_ = rhs.ProbCardInfo_; }
+		CProbeCard( const CProbeCard& pc );
         //! destructor
         virtual ~CProbeCard();
         //! set Product Information

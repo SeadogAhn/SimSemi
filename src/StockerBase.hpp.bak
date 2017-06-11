@@ -2,7 +2,6 @@
 #define __STOCKER_H__
 
 // SIMSEMI headers
-#include "Types.hpp"
 #include "Lot.hpp"
 // standard libraries
 #include <map>

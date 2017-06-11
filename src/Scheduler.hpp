@@ -11,6 +11,8 @@ namespace SIMSEMI {
     class CScheduler
     {
     public:
+		CScheduler();
+		virtual ~CScheduler();
 
     protected:
 

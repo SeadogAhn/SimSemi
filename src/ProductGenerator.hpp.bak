@@ -2,10 +2,8 @@
 #define __PRODUCT_GENERATOR_HPP__
 
 // SIMSEMI headers
-#include "Types.hpp"
 
 // standard libraries
-#include <vector>
 
 //! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {

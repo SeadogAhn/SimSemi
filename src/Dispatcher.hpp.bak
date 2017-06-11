@@ -2,8 +2,10 @@
 #define __DISPATCHER_HPP__
 
 // SIMSEMI headers
-#include "Machine.hpp"
+
 // standard libraries
+
+#include "Machine.hpp"
 
 //! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {

@@ -13,7 +13,8 @@ namespace SIMSEMI {
 	//! State of a Machine
     enum enumMachineState {
         eNOT_INIT	///< not installed any probecard
-        , eIDLE		///< initializing machine, install probe card and setup test program and so on
+        , eINIT		///< initializing machine, install probe card and setup test program and so on
+        , eIDLE		///< idle
         , eRUN		///< running a Lot
         , eDOWN		///< crash machine or emergency alert or pm or bm
     };
