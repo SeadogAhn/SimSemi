@@ -1,11 +1,15 @@
 #ifndef __PROBECARD_HPP__
 #define __PROBECARD_HPP__
 
+// SIMSEMI headers
+
+// standard libraries
+
 #include "Types.hpp"
 #include <string>
 
 
-//! the namespace of simulation for semiconductor EDS process
+//! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
     //! Probe Card
     class CProbeCard

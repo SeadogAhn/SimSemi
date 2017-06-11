@@ -1,7 +1,11 @@
 #ifndef __SCHEDULER_HPP__
 #define __SCHEDULER_HPP__
 
-//! the namespace of simulation for semiconductor EDS process
+// SIMSEMI headers
+
+// standard libraries
+
+//! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
     //! Scheduler
     class CScheduler

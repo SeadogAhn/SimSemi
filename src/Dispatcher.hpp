@@ -1,9 +1,13 @@
 #ifndef __DISPATCHER_HPP__
 #define __DISPATCHER_HPP__
 
+// SIMSEMI headers
+
+// standard libraries
+
 #include "Machine.hpp"
 
-//! the namespace of simulation for semiconductor EDS process
+//! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
     //! lot dispatcher
     class CDispatcher
