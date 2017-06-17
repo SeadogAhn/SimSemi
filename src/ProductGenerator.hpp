@@ -13,6 +13,8 @@ namespace SIMSEMI {
     class CProductGenerator
     {
     public:
+    	CProductGenerator();
+    	~CProductGenerator();
 
     protected:
 
