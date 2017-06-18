@@ -16,30 +16,41 @@ SIMSEMI::CMachine::~CMachine()
 
 void SIMSEMI::CMachine::init()
 {
-	destroy();
-	pMachineAttribute_ = NULL;
-	pProbeCard_ = NULL;
+	bStartupMachine_ = false;
+	bInstalledProbeCard_ = false;
 }
 
 void SIMSEMI::CMachine::destroy()
 {
 	MachineState_ = eNOT_INIT;
-	if (pMachineAttribute_) delete pMachineAttribute_;
-	if (pProbeCard_) delete pProbeCard_;
+	MachineAttribute_.clear();
+	bStartupMachine_ = false;
+	bInstalledProbeCard_ = false;
 }
 
-void SIMSEMI::CMachine::initMachine(const MachineAttributeType& ma, const CProbeCard& pc)
+void SIMSEMI::CMachine::setMachineAttribute( const MachineAttributeType& ma )
 {
-	init();
-	pMachineAttribute_ = new MachineAttributeType(ma);
-	pProbeCard_ = new CProbeCard(pc);
-	MachineState_ = eIDLE;
+	MachineState_ = eNOT_INIT;
+	MachineAttribute_ = ma;
+	bStartupMachine_ = true;
 }
 
-CLot& SIMSEMI::CMachine::proceedLot(CLot& lot)
+
+void SIMSEMI::CMachine::setProbeCard( const CProbeCard& pc )
+{
+	if (bStartupMachine_)
+	{
+		ProbeCard_ = pc;
+		bInstalledProbeCard_ = true;
+	}
+}
+
+CLot& SIMSEMI::CMachine::operateLot(CLot& lot)
 {
 	MachineState_ = eRUN;
 	
+
+
 	MachineState_ = eIDLE;
 	return lot;
 }

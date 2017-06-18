@@ -24,13 +24,31 @@
         "definitions" : [
         ],
         "file" : "E://GitRepository/SimSemi/src/Define.hpp",
-        "file_last_write" : 1496714271
+        "file_last_write" : 1497800172
     },
     {
         "definitions" : [
+            {
+                "column" : 27,
+                "file" : "E://GitRepository/SimSemi/src/Dispatcher.cpp",
+                "kind" : 7,
+                "line" : 13,
+                "name" : "moveLotFromStockerToMachine(SIMSEMI::CLot &, SIMSEMI::CStocker &, SIMSEMI::CMachine &)",
+                "parent_name" : "CDispatcher",
+                "usr" : "c:@N@SIMSEMI@C@CDispatcher@F@moveLotFromStockerToMachine#&$@N@SIMSEMI@C@CLot#&$@N@SIMSEMI@C@CStocker#&$@N@SIMSEMI@C@CMachine#"
+            },
+            {
+                "column" : 27,
+                "file" : "E://GitRepository/SimSemi/src/Dispatcher.cpp",
+                "kind" : 7,
+                "line" : 18,
+                "name" : "moveLotFromMachineToStocker(SIMSEMI::CLot &, SIMSEMI::CMachine &, SIMSEMI::CStocker &)",
+                "parent_name" : "CDispatcher",
+                "usr" : "c:@N@SIMSEMI@C@CDispatcher@F@moveLotFromMachineToStocker#&$@N@SIMSEMI@C@CLot#&$@N@SIMSEMI@C@CMachine#&$@N@SIMSEMI@C@CStocker#"
+            }
         ],
         "file" : "E://GitRepository/SimSemi/src/Dispatcher.cpp",
-        "file_last_write" : 1497155180
+        "file_last_write" : 1497769904
     },
     {
         "definitions" : [
@@ -38,14 +56,14 @@
                 "column" : 11,
                 "file" : "E://GitRepository/SimSemi/src/Dispatcher.hpp",
                 "kind" : 2,
-                "line" : 11,
+                "line" : 14,
                 "name" : "CDispatcher",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@C@CDispatcher"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/Dispatcher.hpp",
-        "file_last_write" : 1497158345
+        "file_last_write" : 1497769860
     },
     {
         "definitions" : [
@@ -53,14 +71,35 @@
                 "column" : 8,
                 "file" : "E://GitRepository/SimSemi/src/Exception.hpp",
                 "kind" : 2,
-                "line" : 13,
+                "line" : 12,
                 "name" : "Exception",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@C@Exception"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/Exception.hpp",
-        "file_last_write" : 1497160004
+        "file_last_write" : 1497797853
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "E://GitRepository/SimSemi/src/FeasibleSolutionsGenerator.cpp",
+        "file_last_write" : 1497769929
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "E://GitRepository/SimSemi/src/FeasibleSolutionsGenerator.hpp",
+                "kind" : 2,
+                "line" : 13,
+                "name" : "CFeasibleSolutionsGenerator",
+                "parent_name" : "",
+                "usr" : "c:@N@SIMSEMI@C@CFeasibleSolutionsGenerator"
+            }
+        ],
+        "file" : "E://GitRepository/SimSemi/src/FeasibleSolutionsGenerator.hpp",
+        "file_last_write" : 1497770235
     },
     {
         "definitions" : [
@@ -81,28 +120,7 @@
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/GeneticAlgorithm.hpp",
-        "file_last_write" : 1497144214
-    },
-    {
-        "definitions" : [
-        ],
-        "file" : "E://GitRepository/SimSemi/src/HeuristicAlgorithm.cpp",
-        "file_last_write" : 1497144177
-    },
-    {
-        "definitions" : [
-            {
-                "column" : 8,
-                "file" : "E://GitRepository/SimSemi/src/HeuristicAlgorithm.hpp",
-                "kind" : 2,
-                "line" : 8,
-                "name" : "CHeuristicAlgorithm",
-                "parent_name" : "",
-                "usr" : "c:@N@SIMSEMI@C@CHeuristicAlgorithm"
-            }
-        ],
-        "file" : "E://GitRepository/SimSemi/src/HeuristicAlgorithm.hpp",
-        "file_last_write" : 1497144142
+        "file_last_write" : 1497741229
     },
     {
         "definitions" : [
@@ -287,23 +305,50 @@
                 "column" : 21,
                 "file" : "E://GitRepository/SimSemi/src/Lot.cpp",
                 "kind" : 7,
-                "line" : 14,
-                "name" : "setWaferYield",
+                "line" : 18,
+                "name" : "init",
                 "parent_name" : "CLot",
-                "usr" : "c:@N@SIMSEMI@C@CLot@F@setWaferYield#"
+                "usr" : "c:@N@SIMSEMI@C@CLot@F@init#"
             },
             {
                 "column" : 21,
                 "file" : "E://GitRepository/SimSemi/src/Lot.cpp",
                 "kind" : 7,
-                "line" : 18,
-                "name" : "init",
+                "line" : 26,
+                "name" : "destroy",
                 "parent_name" : "CLot",
-                "usr" : "c:@N@SIMSEMI@C@CLot@F@init#"
+                "usr" : "c:@N@SIMSEMI@C@CLot@F@destroy#"
+            },
+            {
+                "column" : 21,
+                "file" : "E://GitRepository/SimSemi/src/Lot.cpp",
+                "kind" : 7,
+                "line" : 30,
+                "name" : "setProductAttribute(const SIMSEMI::ProductAttributeType &)",
+                "parent_name" : "CLot",
+                "usr" : "c:@N@SIMSEMI@C@CLot@F@setProductAttribute#&1$@N@SIMSEMI@S@ProductAttributeType#"
+            },
+            {
+                "column" : 21,
+                "file" : "E://GitRepository/SimSemi/src/Lot.cpp",
+                "kind" : 7,
+                "line" : 34,
+                "name" : "setWaferYield(int, double)",
+                "parent_name" : "CLot",
+                "usr" : "c:@N@SIMSEMI@C@CLot@F@setWaferYield#I#d#"
+            },
+            {
+                "column" : 20,
+                "file" : "E://GitRepository/SimSemi/src/Lot.cpp",
+                "kind" : 7,
+                "line" : 39,
+                "name" : "scrapWafer(double)",
+                "parent_name" : "CLot",
+                "usr" : "c:@N@SIMSEMI@C@CLot@F@scrapWafer#d#"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/Lot.cpp",
-        "file_last_write" : 1497158283
+        "file_last_write" : 1497759911
     },
     {
         "definitions" : [
@@ -326,17 +371,71 @@
                 "usr" : "c:Lot.hpp@311@N@SIMSEMI@C@CLot@T@WaferContainer"
             },
             {
+                "column" : 8,
+                "file" : "E://GitRepository/SimSemi/src/Lot.hpp",
+                "kind" : 7,
+                "line" : 28,
+                "name" : "operator==(const SIMSEMI::CLot &)",
+                "parent_name" : "CLot",
+                "usr" : "c:@N@SIMSEMI@C@CLot@F@operator==#&1$@N@SIMSEMI@C@CLot#"
+            },
+            {
+                "column" : 8,
+                "file" : "E://GitRepository/SimSemi/src/Lot.hpp",
+                "kind" : 7,
+                "line" : 47,
+                "name" : "empty",
+                "parent_name" : "CLot",
+                "usr" : "c:@N@SIMSEMI@C@CLot@F@empty#1"
+            },
+            {
+                "column" : 31,
+                "file" : "E://GitRepository/SimSemi/src/Lot.hpp",
+                "kind" : 7,
+                "line" : 51,
+                "name" : "getProductAttribute",
+                "parent_name" : "CLot",
+                "usr" : "c:@N@SIMSEMI@C@CLot@F@getProductAttribute#1"
+            },
+            {
+                "column" : 22,
+                "file" : "E://GitRepository/SimSemi/src/Lot.hpp",
+                "kind" : 7,
+                "line" : 53,
+                "name" : "getLotID",
+                "parent_name" : "CLot",
+                "usr" : "c:@N@SIMSEMI@C@CLot@F@getLotID#1"
+            },
+            {
+                "column" : 25,
+                "file" : "E://GitRepository/SimSemi/src/Lot.hpp",
+                "kind" : 7,
+                "line" : 55,
+                "name" : "getWafers",
+                "parent_name" : "CLot",
+                "usr" : "c:@N@SIMSEMI@C@CLot@F@getWafers#1"
+            },
+            {
                 "column" : 16,
                 "file" : "E://GitRepository/SimSemi/src/Lot.hpp",
                 "kind" : 7,
-                "line" : 32,
+                "line" : 57,
                 "name" : "getWaferCount",
                 "parent_name" : "CLot",
                 "usr" : "c:@N@SIMSEMI@C@CLot@F@getWaferCount#1"
+            },
+            {
+                "column" : 7,
+                "file" : "E://GitRepository/SimSemi/src/Lot.hpp",
+                "kind" : 7,
+                "line" : 59,
+                "name" : "getPriority",
+                "parent_name" : "CLot",
+                "usr" : "c:@N@SIMSEMI@C@CLot@F@getPriority#1"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/Lot.hpp",
-        "file_last_write" : 1497154834
+        "file_last_write" : 1497762948
     },
     {
         "definitions" : [
@@ -353,7 +452,7 @@
                 "column" : 25,
                 "file" : "E://GitRepository/SimSemi/src/Machine.cpp",
                 "kind" : 7,
-                "line" : 24,
+                "line" : 23,
                 "name" : "destroy",
                 "parent_name" : "CMachine",
                 "usr" : "c:@N@SIMSEMI@C@CMachine@F@destroy#"
@@ -363,31 +462,40 @@
                 "file" : "E://GitRepository/SimSemi/src/Machine.cpp",
                 "kind" : 7,
                 "line" : 31,
-                "name" : "initMachine(const SIMSEMI::MachineAttributeType &, const SIMSEMI::CProbeCard &)",
+                "name" : "setMachineAttribute(const SIMSEMI::MachineAttributeType &)",
                 "parent_name" : "CMachine",
-                "usr" : "c:@N@SIMSEMI@C@CMachine@F@initMachine#&1$@N@SIMSEMI@S@MachineAttributeType#&1$@N@SIMSEMI@C@CProbeCard#"
+                "usr" : "c:@N@SIMSEMI@C@CMachine@F@setMachineAttribute#&1$@N@SIMSEMI@S@MachineAttributeType#"
+            },
+            {
+                "column" : 25,
+                "file" : "E://GitRepository/SimSemi/src/Machine.cpp",
+                "kind" : 7,
+                "line" : 39,
+                "name" : "setProbeCard(const SIMSEMI::CProbeCard &)",
+                "parent_name" : "CMachine",
+                "usr" : "c:@N@SIMSEMI@C@CMachine@F@setProbeCard#&1$@N@SIMSEMI@C@CProbeCard#"
             },
             {
                 "column" : 26,
                 "file" : "E://GitRepository/SimSemi/src/Machine.cpp",
                 "kind" : 7,
-                "line" : 39,
-                "name" : "proceedLot(SIMSEMI::CLot &)",
+                "line" : 48,
+                "name" : "operateLot(SIMSEMI::CLot &)",
                 "parent_name" : "CMachine",
-                "usr" : "c:@N@SIMSEMI@C@CMachine@F@proceedLot#&$@N@SIMSEMI@C@CLot#"
+                "usr" : "c:@N@SIMSEMI@C@CMachine@F@operateLot#&$@N@SIMSEMI@C@CLot#"
             },
             {
                 "column" : 33,
                 "file" : "E://GitRepository/SimSemi/src/Machine.cpp",
                 "kind" : 7,
-                "line" : 47,
+                "line" : 58,
                 "name" : "getSummaryUtilizationMachine",
                 "parent_name" : "CMachine",
                 "usr" : "c:@N@SIMSEMI@C@CMachine@F@getSummaryUtilizationMachine#"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/Machine.cpp",
-        "file_last_write" : 1497191259
+        "file_last_write" : 1497772279
     },
     {
         "definitions" : [
@@ -410,10 +518,19 @@
                 "usr" : "c:@N@SIMSEMI@E@enumMachineState@eNOT_INIT"
             },
             {
-                "column" : 11,
+                "column" : 5,
                 "file" : "E://GitRepository/SimSemi/src/Machine.hpp",
                 "kind" : 5,
                 "line" : 16,
+                "name" : "eEMPTY_PROBECARD",
+                "parent_name" : "",
+                "usr" : "c:@N@SIMSEMI@E@enumMachineState@eEMPTY_PROBECARD"
+            },
+            {
+                "column" : 11,
+                "file" : "E://GitRepository/SimSemi/src/Machine.hpp",
+                "kind" : 5,
+                "line" : 17,
                 "name" : "eIDLE",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@E@enumMachineState@eIDLE"
@@ -422,7 +539,7 @@
                 "column" : 11,
                 "file" : "E://GitRepository/SimSemi/src/Machine.hpp",
                 "kind" : 5,
-                "line" : 17,
+                "line" : 18,
                 "name" : "eRUN",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@E@enumMachineState@eRUN"
@@ -431,7 +548,7 @@
                 "column" : 11,
                 "file" : "E://GitRepository/SimSemi/src/Machine.hpp",
                 "kind" : 5,
-                "line" : 18,
+                "line" : 19,
                 "name" : "eDOWN",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@E@enumMachineState@eDOWN"
@@ -440,25 +557,34 @@
                 "column" : 11,
                 "file" : "E://GitRepository/SimSemi/src/Machine.hpp",
                 "kind" : 2,
-                "line" : 22,
+                "line" : 23,
                 "name" : "CMachine",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@C@CMachine"
             },
             {
+                "column" : 25,
+                "file" : "E://GitRepository/SimSemi/src/Machine.hpp",
+                "kind" : 7,
+                "line" : 60,
+                "name" : "getToBeSetProdInfo",
+                "parent_name" : "CMachine",
+                "usr" : "c:@N@SIMSEMI@C@CMachine@F@getToBeSetProdInfo#1"
+            },
+            {
                 "column" : 27,
                 "file" : "E://GitRepository/SimSemi/src/Machine.hpp",
                 "kind" : 7,
-                "line" : 54,
+                "line" : 62,
                 "name" : "getProbeCard",
                 "parent_name" : "CMachine",
                 "usr" : "c:@N@SIMSEMI@C@CMachine@F@getProbeCard#1"
             },
             {
-                "column" : 37,
+                "column" : 36,
                 "file" : "E://GitRepository/SimSemi/src/Machine.hpp",
                 "kind" : 7,
-                "line" : 56,
+                "line" : 64,
                 "name" : "getMachineAttribute",
                 "parent_name" : "CMachine",
                 "usr" : "c:@N@SIMSEMI@C@CMachine@F@getMachineAttribute#1"
@@ -467,20 +593,41 @@
                 "column" : 26,
                 "file" : "E://GitRepository/SimSemi/src/Machine.hpp",
                 "kind" : 7,
-                "line" : 62,
+                "line" : 66,
                 "name" : "getMachineState",
                 "parent_name" : "CMachine",
                 "usr" : "c:@N@SIMSEMI@C@CMachine@F@getMachineState#1"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/Machine.hpp",
-        "file_last_write" : 1497190937
+        "file_last_write" : 1497771401
     },
     {
         "definitions" : [
         ],
+        "file" : "E://GitRepository/SimSemi/src/MachineWorker.cpp",
+        "file_last_write" : 1497740806
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "E://GitRepository/SimSemi/src/MachineWorker.hpp",
+                "kind" : 2,
+                "line" : 12,
+                "name" : "CMachineWorker",
+                "parent_name" : "",
+                "usr" : "c:@N@SIMSEMI@C@CMachineWorker"
+            }
+        ],
         "file" : "E://GitRepository/SimSemi/src/MachineWorker.hpp",
-        "file_last_write" : 1497143122
+        "file_last_write" : 1497763590
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "E://GitRepository/SimSemi/src/Manufactory.cpp",
+        "file_last_write" : 1497782593
     },
     {
         "definitions" : [
@@ -488,23 +635,47 @@
                 "column" : 11,
                 "file" : "E://GitRepository/SimSemi/src/Manufactory.hpp",
                 "kind" : 2,
-                "line" : 14,
+                "line" : 19,
                 "name" : "CManufactory",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@C@CManufactory"
             },
             {
-                "column" : 64,
+                "column" : 33,
                 "file" : "E://GitRepository/SimSemi/src/Manufactory.hpp",
                 "kind" : 8,
-                "line" : 18,
+                "line" : 23,
                 "name" : "MachineContainer",
                 "parent_name" : "",
-                "usr" : "c:Manufactory.hpp@384@N@SIMSEMI@C@CManufactory@T@MachineContainer"
+                "usr" : "c:Manufactory.hpp@484@N@SIMSEMI@C@CManufactory@T@MachineContainer"
+            },
+            {
+                "column" : 35,
+                "file" : "E://GitRepository/SimSemi/src/Manufactory.hpp",
+                "kind" : 8,
+                "line" : 24,
+                "name" : "ProbeCardContainer",
+                "parent_name" : "",
+                "usr" : "c:Manufactory.hpp@535@N@SIMSEMI@C@CManufactory@T@ProbeCardContainer"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/Manufactory.hpp",
-        "file_last_write" : 1497191578
+        "file_last_write" : 1497763733
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 40,
+                "file" : "E://GitRepository/SimSemi/src/ManufacturingOperation.cpp",
+                "kind" : 7,
+                "line" : 13,
+                "name" : "setProducts(int)",
+                "parent_name" : "CManufacturingOperation",
+                "usr" : "c:@N@SIMSEMI@C@CManufacturingOperation@F@setProducts#I#"
+            }
+        ],
+        "file" : "E://GitRepository/SimSemi/src/ManufacturingOperation.cpp",
+        "file_last_write" : 1497764480
     },
     {
         "definitions" : [
@@ -512,14 +683,14 @@
                 "column" : 11,
                 "file" : "E://GitRepository/SimSemi/src/ManufacturingOperation.hpp",
                 "kind" : 2,
-                "line" : 13,
+                "line" : 18,
                 "name" : "CManufacturingOperation",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@C@CManufacturingOperation"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/ManufacturingOperation.hpp",
-        "file_last_write" : 1497140597
+        "file_last_write" : 1497764495
     },
     {
         "definitions" : [
@@ -546,7 +717,7 @@
         "definitions" : [
         ],
         "file" : "E://GitRepository/SimSemi/src/ProbeCard.cpp",
-        "file_last_write" : 1496764581
+        "file_last_write" : 1497763539
     },
     {
         "definitions" : [
@@ -554,7 +725,7 @@
                 "column" : 11,
                 "file" : "E://GitRepository/SimSemi/src/ProbeCard.hpp",
                 "kind" : 2,
-                "line" : 13,
+                "line" : 12,
                 "name" : "CProbeCard",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@C@CProbeCard"
@@ -563,14 +734,56 @@
                 "column" : 33,
                 "file" : "E://GitRepository/SimSemi/src/ProbeCard.hpp",
                 "kind" : 7,
-                "line" : 25,
-                "name" : "getProductInfo",
+                "line" : 24,
+                "name" : "getProdInfo",
                 "parent_name" : "CProbeCard",
-                "usr" : "c:@N@SIMSEMI@C@CProbeCard@F@getProductInfo#1"
+                "usr" : "c:@N@SIMSEMI@C@CProbeCard@F@getProdInfo#1"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/ProbeCard.hpp",
-        "file_last_write" : 1497190376
+        "file_last_write" : 1497763545
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 34,
+                "file" : "E://GitRepository/SimSemi/src/ProductGenerator.cpp",
+                "kind" : 7,
+                "line" : 22,
+                "name" : "setSizeOfProducts(int)",
+                "parent_name" : "CProductGenerator",
+                "usr" : "c:@N@SIMSEMI@C@CProductGenerator@F@setSizeOfProducts#I#"
+            },
+            {
+                "column" : 65,
+                "file" : "E://GitRepository/SimSemi/src/ProductGenerator.cpp",
+                "kind" : 7,
+                "line" : 31,
+                "name" : "makeProductAttribute(int)",
+                "parent_name" : "CProductGenerator",
+                "usr" : "c:@N@SIMSEMI@C@CProductGenerator@F@makeProductAttribute#I#"
+            },
+            {
+                "column" : 33,
+                "file" : "E://GitRepository/SimSemi/src/ProductGenerator.cpp",
+                "kind" : 7,
+                "line" : 49,
+                "name" : "genStepSize",
+                "parent_name" : "CProductGenerator",
+                "usr" : "c:@N@SIMSEMI@C@CProductGenerator@F@genStepSize#"
+            },
+            {
+                "column" : 84,
+                "file" : "E://GitRepository/SimSemi/src/ProductGenerator.cpp",
+                "kind" : 7,
+                "line" : 71,
+                "name" : "genTestTime(int)",
+                "parent_name" : "CProductGenerator",
+                "usr" : "c:@N@SIMSEMI@C@CProductGenerator@F@genTestTime#I#"
+            }
+        ],
+        "file" : "E://GitRepository/SimSemi/src/ProductGenerator.cpp",
+        "file_last_write" : 1497800053
     },
     {
         "definitions" : [
@@ -578,14 +791,32 @@
                 "column" : 11,
                 "file" : "E://GitRepository/SimSemi/src/ProductGenerator.hpp",
                 "kind" : 2,
-                "line" : 11,
+                "line" : 13,
                 "name" : "CProductGenerator",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@C@CProductGenerator"
+            },
+            {
+                "column" : 45,
+                "file" : "E://GitRepository/SimSemi/src/ProductGenerator.hpp",
+                "kind" : 8,
+                "line" : 17,
+                "name" : "ProductContainer",
+                "parent_name" : "",
+                "usr" : "c:ProductGenerator.hpp@380@N@SIMSEMI@C@CProductGenerator@T@ProductContainer"
+            },
+            {
+                "column" : 27,
+                "file" : "E://GitRepository/SimSemi/src/ProductGenerator.hpp",
+                "kind" : 7,
+                "line" : 30,
+                "name" : "getProducts",
+                "parent_name" : "CProductGenerator",
+                "usr" : "c:@N@SIMSEMI@C@CProductGenerator@F@getProducts#1"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/ProductGenerator.hpp",
-        "file_last_write" : 1497140500
+        "file_last_write" : 1497799374
     },
     {
         "definitions" : [
@@ -606,7 +837,49 @@
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/Scheduler.hpp",
-        "file_last_write" : 1497154880
+        "file_last_write" : 1497763558
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 25,
+                "file" : "E://GitRepository/SimSemi/src/Station.cpp",
+                "kind" : 7,
+                "line" : 11,
+                "name" : "init",
+                "parent_name" : "CStation",
+                "usr" : "c:@N@SIMSEMI@C@CStation@F@init#"
+            },
+            {
+                "column" : 25,
+                "file" : "E://GitRepository/SimSemi/src/Station.cpp",
+                "kind" : 7,
+                "line" : 16,
+                "name" : "destroy",
+                "parent_name" : "CStation",
+                "usr" : "c:@N@SIMSEMI@C@CStation@F@destroy#"
+            },
+            {
+                "column" : 40,
+                "file" : "E://GitRepository/SimSemi/src/Station.cpp",
+                "kind" : 7,
+                "line" : 21,
+                "name" : "pop",
+                "parent_name" : "CStation",
+                "usr" : "c:@N@SIMSEMI@C@CStation@F@pop#"
+            },
+            {
+                "column" : 25,
+                "file" : "E://GitRepository/SimSemi/src/Station.cpp",
+                "kind" : 7,
+                "line" : 32,
+                "name" : "push(const SIMSEMI::CLot &)",
+                "parent_name" : "CStation",
+                "usr" : "c:@N@SIMSEMI@C@CStation@F@push#&1$@N@SIMSEMI@C@CLot#"
+            }
+        ],
+        "file" : "E://GitRepository/SimSemi/src/Station.cpp",
+        "file_last_write" : 1497782483
     },
     {
         "definitions" : [
@@ -627,91 +900,100 @@
                 "name" : "LotContainer",
                 "parent_name" : "",
                 "usr" : "c:Station.hpp@303@N@SIMSEMI@C@CStation@T@LotContainer"
-            },
-            {
-                "column" : 21,
-                "file" : "E://GitRepository/SimSemi/src/Station.hpp",
-                "kind" : 7,
-                "line" : 19,
-                "name" : "pop",
-                "parent_name" : "CStation",
-                "usr" : "c:@N@SIMSEMI@C@CStation@F@pop#1"
-            },
-            {
-                "column" : 14,
-                "file" : "E://GitRepository/SimSemi/src/Station.hpp",
-                "kind" : 7,
-                "line" : 20,
-                "name" : "push(const SIMSEMI::CLot &)",
-                "parent_name" : "CStation",
-                "usr" : "c:@N@SIMSEMI@C@CStation@F@push#&1$@N@SIMSEMI@C@CLot#"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/Station.hpp",
-        "file_last_write" : 1497155421
-    },
-    {
-        "definitions" : [
-        ],
-        "file" : "E://GitRepository/SimSemi/src/StochasticAlgorithm.cpp",
-        "file_last_write" : 1497144210
+        "file_last_write" : 1497782515
     },
     {
         "definitions" : [
             {
-                "column" : 8,
-                "file" : "E://GitRepository/SimSemi/src/StochasticAlgorithm.hpp",
-                "kind" : 2,
-                "line" : 12,
-                "name" : "CStochasticAlgorithm",
-                "parent_name" : "",
-                "usr" : "c:@N@SIMSEMI@C@CStochasticAlgorithm"
+                "column" : 40,
+                "file" : "E://GitRepository/SimSemi/src/Stocker.cpp",
+                "kind" : 7,
+                "line" : 15,
+                "name" : "unload(const SIMSEMI::CLot &)",
+                "parent_name" : "CStocker",
+                "usr" : "c:@N@SIMSEMI@C@CStocker@F@unload#&1$@N@SIMSEMI@C@CLot#"
+            },
+            {
+                "column" : 25,
+                "file" : "E://GitRepository/SimSemi/src/Stocker.cpp",
+                "kind" : 7,
+                "line" : 32,
+                "name" : "load(const SIMSEMI::CLot &)",
+                "parent_name" : "CStocker",
+                "usr" : "c:@N@SIMSEMI@C@CStocker@F@load#&1$@N@SIMSEMI@C@CLot#"
             }
         ],
-        "file" : "E://GitRepository/SimSemi/src/StochasticAlgorithm.hpp",
-        "file_last_write" : 1497144132
+        "file" : "E://GitRepository/SimSemi/src/Stocker.cpp",
+        "file_last_write" : 1497763573
     },
     {
         "definitions" : [
             {
                 "column" : 11,
-                "file" : "E://GitRepository/SimSemi/src/StockerBase.hpp",
+                "file" : "E://GitRepository/SimSemi/src/Stocker.hpp",
                 "kind" : 2,
                 "line" : 13,
-                "name" : "CStockerBase",
+                "name" : "CStocker",
                 "parent_name" : "",
-                "usr" : "c:@N@SIMSEMI@C@CStockerBase"
+                "usr" : "c:@N@SIMSEMI@C@CStocker"
             },
             {
-                "column" : 39,
-                "file" : "E://GitRepository/SimSemi/src/StockerBase.hpp",
+                "column" : 27,
+                "file" : "E://GitRepository/SimSemi/src/Stocker.hpp",
                 "kind" : 8,
                 "line" : 16,
                 "name" : "LotContainer",
                 "parent_name" : "",
-                "usr" : "c:StockerBase.hpp@327@N@SIMSEMI@C@CStockerBase@T@LotContainer"
-            },
-            {
-                "column" : 20,
-                "file" : "E://GitRepository/SimSemi/src/StockerBase.hpp",
-                "kind" : 7,
-                "line" : 20,
-                "name" : "pop",
-                "parent_name" : "CStockerBase",
-                "usr" : "c:@N@SIMSEMI@C@CStockerBase@F@pop#1"
-            },
-            {
-                "column" : 14,
-                "file" : "E://GitRepository/SimSemi/src/StockerBase.hpp",
-                "kind" : 7,
-                "line" : 21,
-                "name" : "push(const SIMSEMI::CLot &)",
-                "parent_name" : "CStockerBase",
-                "usr" : "c:@N@SIMSEMI@C@CStockerBase@F@push#&1$@N@SIMSEMI@C@CLot#"
+                "usr" : "c:Stocker.hpp@323@N@SIMSEMI@C@CStocker@T@LotContainer"
             }
         ],
-        "file" : "E://GitRepository/SimSemi/src/StockerBase.hpp",
-        "file_last_write" : 1497158111
+        "file" : "E://GitRepository/SimSemi/src/Stocker.hpp",
+        "file_last_write" : 1497761645
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 37,
+                "file" : "E://GitRepository/SimSemi/src/Types.cpp",
+                "kind" : 7,
+                "line" : 5,
+                "name" : "clear",
+                "parent_name" : "ProductAttributeType",
+                "usr" : "c:@N@SIMSEMI@S@ProductAttributeType@F@clear#"
+            },
+            {
+                "column" : 37,
+                "file" : "E://GitRepository/SimSemi/src/Types.cpp",
+                "kind" : 7,
+                "line" : 15,
+                "name" : "clear",
+                "parent_name" : "MachineAttributeType",
+                "usr" : "c:@N@SIMSEMI@S@MachineAttributeType@F@clear#"
+            },
+            {
+                "column" : 31,
+                "file" : "E://GitRepository/SimSemi/src/Types.cpp",
+                "kind" : 7,
+                "line" : 23,
+                "name" : "clear",
+                "parent_name" : "MachineLogType",
+                "usr" : "c:@N@SIMSEMI@S@MachineLogType@F@clear#"
+            },
+            {
+                "column" : 44,
+                "file" : "E://GitRepository/SimSemi/src/Types.cpp",
+                "kind" : 7,
+                "line" : 32,
+                "name" : "toString",
+                "parent_name" : "MachineLogType",
+                "usr" : "c:@N@SIMSEMI@S@MachineLogType@F@toString#"
+            }
+        ],
+        "file" : "E://GitRepository/SimSemi/src/Types.cpp",
+        "file_last_write" : 1497797981
     },
     {
         "definitions" : [
@@ -722,22 +1004,22 @@
                 "line" : 16,
                 "name" : "Vec_STR",
                 "parent_name" : "",
-                "usr" : "c:Types.hpp@337@N@SIMSEMI@T@Vec_STR"
+                "usr" : "c:Types.hpp@338@N@SIMSEMI@T@Vec_STR"
             },
             {
                 "column" : 49,
                 "file" : "E://GitRepository/SimSemi/src/Types.hpp",
                 "kind" : 8,
-                "line" : 19,
-                "name" : "ProdInfoType",
+                "line" : 18,
+                "name" : "ProcessInfoType",
                 "parent_name" : "",
-                "usr" : "c:Types.hpp@479@N@SIMSEMI@T@ProdInfoType"
+                "usr" : "c:Types.hpp@479@N@SIMSEMI@T@ProcessInfoType"
             },
             {
-                "column" : 63,
+                "column" : 66,
                 "file" : "E://GitRepository/SimSemi/src/Types.hpp",
                 "kind" : 8,
-                "line" : 19,
+                "line" : 18,
                 "name" : "ProbeCardInfoType",
                 "parent_name" : "",
                 "usr" : "c:Types.hpp@479@N@SIMSEMI@T@ProbeCardInfoType"
@@ -746,25 +1028,25 @@
                 "column" : 9,
                 "file" : "E://GitRepository/SimSemi/src/Types.hpp",
                 "kind" : 3,
-                "line" : 22,
+                "line" : 21,
                 "name" : "ProductAttributeType",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@S@ProductAttributeType"
             },
             {
-                "column" : 7,
+                "column" : 31,
                 "file" : "E://GitRepository/SimSemi/src/Types.hpp",
-                "kind" : 7,
-                "line" : 30,
-                "name" : "getStepCount",
-                "parent_name" : "ProductAttributeType",
-                "usr" : "c:@N@SIMSEMI@S@ProductAttributeType@F@getStepCount#1"
+                "kind" : 8,
+                "line" : 23,
+                "name" : "TestTimeContainer",
+                "parent_name" : "",
+                "usr" : "c:Types.hpp@626@N@SIMSEMI@S@ProductAttributeType@T@TestTimeContainer"
             },
             {
                 "column" : 9,
                 "file" : "E://GitRepository/SimSemi/src/Types.hpp",
                 "kind" : 3,
-                "line" : 34,
+                "line" : 36,
                 "name" : "MachineAttributeType",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@S@MachineAttributeType"
@@ -773,14 +1055,23 @@
                 "column" : 9,
                 "file" : "E://GitRepository/SimSemi/src/Types.hpp",
                 "kind" : 3,
-                "line" : 42,
+                "line" : 46,
                 "name" : "MachineLogType",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@S@MachineLogType"
+            },
+            {
+                "column" : 9,
+                "file" : "E://GitRepository/SimSemi/src/Types.hpp",
+                "kind" : 3,
+                "line" : 61,
+                "name" : "OperationType",
+                "parent_name" : "",
+                "usr" : "c:@N@SIMSEMI@S@OperationType"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/Types.hpp",
-        "file_last_write" : 1497181660
+        "file_last_write" : 1497799776
     },
     {
         "definitions" : [
@@ -857,7 +1148,7 @@
                 "column" : 8,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 2,
-                "line" : 21,
+                "line" : 22,
                 "name" : "CMutexAttribute",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@C@CMutexAttribute"
@@ -866,7 +1157,7 @@
                 "column" : 24,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 7,
-                "line" : 26,
+                "line" : 27,
                 "name" : "value",
                 "parent_name" : "CMutexAttribute",
                 "usr" : "c:@N@SIMSEMI@C@CMutexAttribute@F@value#"
@@ -875,7 +1166,7 @@
                 "column" : 8,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 2,
-                "line" : 38,
+                "line" : 39,
                 "name" : "CLock",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@C@CLock"
@@ -884,7 +1175,7 @@
                 "column" : 10,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 7,
-                "line" : 52,
+                "line" : 53,
                 "name" : "operator=(const SIMSEMI::CLock &)",
                 "parent_name" : "CLock",
                 "usr" : "c:@N@SIMSEMI@C@CLock@F@operator=#&1$@N@SIMSEMI@C@CLock#"
@@ -893,7 +1184,7 @@
                 "column" : 8,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 7,
-                "line" : 56,
+                "line" : 57,
                 "name" : "lock",
                 "parent_name" : "CLock",
                 "usr" : "c:@N@SIMSEMI@C@CLock@F@lock#1"
@@ -902,7 +1193,7 @@
                 "column" : 8,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 7,
-                "line" : 62,
+                "line" : 63,
                 "name" : "unlock",
                 "parent_name" : "CLock",
                 "usr" : "c:@N@SIMSEMI@C@CLock@F@unlock#1"
@@ -911,7 +1202,7 @@
                 "column" : 8,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 2,
-                "line" : 72,
+                "line" : 73,
                 "name" : "CThread",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@C@CThread"
@@ -920,7 +1211,7 @@
                 "column" : 7,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 7,
-                "line" : 78,
+                "line" : 79,
                 "name" : "threadid",
                 "parent_name" : "CThread",
                 "usr" : "c:@N@SIMSEMI@C@CThread@F@threadid#1"
@@ -929,7 +1220,7 @@
                 "column" : 8,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 7,
-                "line" : 81,
+                "line" : 82,
                 "name" : "start",
                 "parent_name" : "CThread",
                 "usr" : "c:@N@SIMSEMI@C@CThread@F@start#"
@@ -938,7 +1229,7 @@
                 "column" : 8,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 7,
-                "line" : 89,
+                "line" : 90,
                 "name" : "stop",
                 "parent_name" : "CThread",
                 "usr" : "c:@N@SIMSEMI@C@CThread@F@stop#"
@@ -947,7 +1238,7 @@
                 "column" : 8,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 7,
-                "line" : 96,
+                "line" : 97,
                 "name" : "wait(unsigned int)",
                 "parent_name" : "CThread",
                 "usr" : "c:@N@SIMSEMI@C@CThread@F@wait#i#"
@@ -956,7 +1247,7 @@
                 "column" : 8,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 7,
-                "line" : 105,
+                "line" : 106,
                 "name" : "sleep(unsigned int)",
                 "parent_name" : "CThread",
                 "usr" : "c:@N@SIMSEMI@C@CThread@F@sleep#i#"
@@ -965,7 +1256,7 @@
                 "column" : 16,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 7,
-                "line" : 114,
+                "line" : 115,
                 "name" : "thread_(void *)",
                 "parent_name" : "CThread",
                 "usr" : "c:@N@SIMSEMI@C@CThread@F@thread_#*v#S"
@@ -974,7 +1265,7 @@
                 "column" : 16,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 7,
-                "line" : 123,
+                "line" : 124,
                 "name" : "thread",
                 "parent_name" : "CThread",
                 "usr" : "c:@N@SIMSEMI@C@CThread@F@thread#"
@@ -983,7 +1274,7 @@
                 "column" : 8,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 2,
-                "line" : 129,
+                "line" : 130,
                 "name" : "CElapsedTime",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@C@CElapsedTime"
@@ -992,7 +1283,7 @@
                 "column" : 10,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 7,
-                "line" : 135,
+                "line" : 136,
                 "name" : "msec",
                 "parent_name" : "CElapsedTime",
                 "usr" : "c:@N@SIMSEMI@C@CElapsedTime@F@msec#1"
@@ -1001,14 +1292,41 @@
                 "column" : 8,
                 "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
                 "kind" : 2,
-                "line" : 144,
+                "line" : 145,
                 "name" : "CHiResElapsedTime",
                 "parent_name" : "",
                 "usr" : "c:@N@SIMSEMI@C@CHiResElapsedTime"
+            },
+            {
+                "column" : 7,
+                "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
+                "kind" : 2,
+                "line" : 168,
+                "name" : "CIntRandom",
+                "parent_name" : "",
+                "usr" : "c:@C@CIntRandom"
+            },
+            {
+                "column" : 7,
+                "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
+                "kind" : 7,
+                "line" : 177,
+                "name" : "setRange(int, int)",
+                "parent_name" : "CIntRandom",
+                "usr" : "c:@C@CIntRandom@F@setRange#I#I#"
+            },
+            {
+                "column" : 6,
+                "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
+                "kind" : 7,
+                "line" : 183,
+                "name" : "execNumberGenerate",
+                "parent_name" : "CIntRandom",
+                "usr" : "c:@C@CIntRandom@F@execNumberGenerate#"
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/Utility.hpp",
-        "file_last_write" : 1497142537
+        "file_last_write" : 1497740709
     },
     {
         "definitions" : [
@@ -1023,7 +1341,7 @@
             }
         ],
         "file" : "E://GitRepository/SimSemi/src/Wafer.hpp",
-        "file_last_write" : 1497140500
+        "file_last_write" : 1497754021
     },
     {
         "definitions" : [

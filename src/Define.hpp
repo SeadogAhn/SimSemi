@@ -6,5 +6,13 @@
 
 #define SIMSEMI_D_MAX_CNT_HOT_LOT       3
 
+#define SIMSEMI_D_STEP_LIMIT			3
+#define SIMSEMI_D_STEP_1_RATE			0.2
+#define SIMSEMI_D_STEP_2_RATE			0.75
+#define SIMSEMI_D_STEP_3_RATE			0.5
+
+#define SIMSEMI_D_TEST_TIME_MIN			5.0
+#define SIMSEMI_D_TEST_TIME_MEAN		45.0
+#define SIMSEMI_D_TEST_TIME_MAX			120.0
 
 #endif // __DEFINE_HPP

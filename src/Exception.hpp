@@ -7,9 +7,8 @@
 #include <exception>
 
 //! the namespace of the simulation for the manufacturing semiconductor process
-//! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
-
+	//! SIMSEMI Exception
 	class Exception : public exception
 	{
 	public:

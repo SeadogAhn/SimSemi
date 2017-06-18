@@ -14,7 +14,16 @@ namespace SIMSEMI {
 	public:
 		CGeneticAlgorithm();
 		~CGeneticAlgorithm();
+
+
 	protected:
+
+		void selection();
+		void crossover();
+		void mutation();
+		void decode();
+		void statistics();
+
 
 	private:
 

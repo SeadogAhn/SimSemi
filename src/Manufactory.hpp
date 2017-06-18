@@ -3,6 +3,11 @@
 
 // SIMSEMI headers
 #include "Types.hpp"
+#include "Machine.hpp"
+#include "ProbeCard.hpp"
+#include "Stocker.hpp"
+#include "Station.hpp"
+
 // standard libraries
 #include <vector>
 #include <map>
@@ -15,8 +20,8 @@ namespace SIMSEMI {
     {
     public:
 		// defined type
-		typedef std::vector<std::pair<CMachine, enumMachineStatus> > MachineContainer;
-		typedef std::vector<std::pair<CMachine, enumMachineStatus> > MachineContainer;
+		typedef std::vector<CMachine> MachineContainer;
+		typedef std::vector<CProbeCard> ProbeCardContainer;
 
         //! default constructor
         CManufactory();
@@ -27,7 +32,10 @@ namespace SIMSEMI {
 		
 
     private:
-          MachineContainer Machines_;
+		CStocker StockerInput_;		///< stock input lots
+		CStocker StockerHold_;		///< sotck held lots
+		MachineContainer Machines_;	///< container of machines
+		ProbeCardContainer ProbeCard_;	///< container of probecards
 
     };
 }

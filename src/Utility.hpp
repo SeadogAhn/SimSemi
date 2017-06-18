@@ -6,6 +6,7 @@
 
 // standard libraries
 #include <pthread.h>
+#include <cstdlib>
 #include <time.h>
 #include <sys/time.h>  // For gettimeofday(), timeval
 
@@ -73,7 +74,7 @@ namespace SIMSEMI {
 	{
 	public:
 		CThread() : threadid_(0) {}
-		~CThread() { if (threadid_ != 0) stop(); }
+		virtual ~CThread() { if (threadid_ != 0) stop(); }
 
 		int threadid() const { return (int)threadid_; }
 
@@ -159,5 +160,34 @@ namespace SIMSEMI {
 		double starting_;	///< Starting time
 	};
 }
+
+//! Generating integer random number class
+/*!
+    range [ nRangeMin_, nRangeMax_ )
+*/
+class CIntRandom {
+public:
+	CIntRandom( int nMin = 0, int nMax = RAND_MAX )
+	{
+		nRangeMin_ = nMin;
+		nRangeMax_ = nMax;
+		srand( (unsigned)time(NULL) );
+	}
+
+	void setRange( int nMin = 0, int nMax = RAND_MAX )
+	{
+		nRangeMin_ = nMin;
+		nRangeMax_ = nMax;
+	}
+
+	int execNumberGenerate()
+	{
+		return ( ( rand() % ( nRangeMax_ - nRangeMin_ ) ) + nRangeMin_ );
+	}
+
+private:
+	int nRangeMin_;
+	int nRangeMax_;
+};
 
 #endif // __UTILITY_HPP__

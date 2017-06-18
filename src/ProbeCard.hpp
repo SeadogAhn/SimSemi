@@ -6,7 +6,6 @@
 // standard libraries
 #include <string>
 
-
 //! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
     //! Probe Card
@@ -22,7 +21,7 @@ namespace SIMSEMI {
         //! set Product Information
         void setProductInfo( const ProbeCardInfoType& ProbCardInfo );
         //! get Product Information
-        const ProbeCardInfoType getProductInfo() const { return ProbCardInfo_; }
+        const ProbeCardInfoType getProdInfo() const { return ProbCardInfo_; }
 
     protected:
 

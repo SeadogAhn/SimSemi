@@ -4,7 +4,7 @@
 // SIMSEMI headers
 #include "Lot.hpp"
 // standard libraries
-#include <queue>
+#include <deque>
 
 //! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
@@ -12,20 +12,26 @@ namespace SIMSEMI {
     class CStation
     {
     public:
-		typedef std::queue<CLot> LotContainer;
+		typedef std::deque<CLot> LotContainer;
+		//! default constructor
         CStation();
-        virtual ~CStation();
-
-        const CLot& pop() const { return Lots_.pop(); }
-        void push(const CLot& lot) { Lots_.push(lot); }
+		//! destructor
+        ~CStation();
+		//! get a Lot and erase the Lot
+        const CLot pop();
+		//! push a Lot
+        void push(const CLot& lot);
 
     protected:
 
     private:
-        LotContainer Lots_;
-
+		//! initialize
+		void init();
+		//! destroy
+		void destroy();
+		
+        LotContainer Lots_; ///< conatiner of lots
     };
-
 }
 
 #endif //__STATION_H__

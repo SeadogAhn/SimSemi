@@ -16,6 +16,7 @@ namespace SIMSEMI {
         int nWaferNo;           ///< Wafer Number
         int nNetDie;            ///< netdie
         int nTestDie;           ///< testdie
+		int nRetestCount;		///< tetested count
         double dblYield;        ///< yield of wafer
     };
 }
