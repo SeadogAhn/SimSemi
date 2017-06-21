@@ -15,7 +15,7 @@ CMutexAttribute& SIMSEMI::CMutexAttribute::gOnly ()
 }
 
 SIMSEMI::CMutexAttribute::CMutexAttribute ()
-{ 
+{
 	pthread_mutexattr_init (&attr_);
 	pthread_mutexattr_settype (value(), PTHREAD_MUTEX_RECURSIVE);
 }
@@ -79,4 +79,42 @@ void SIMSEMI::CHiResElapsedTime::reset ()
 	gettimeofday (&t, 0);
 
 	starting_ = 1.e-6 * t.tv_usec + t.tv_sec;
+}
+
+//-----------------------------------------------------------------------------
+//! operator<< overloading for printing OperationType to out stream directly
+std::ostream& SIMSEMI::operator<<(std::ostream& os, const OperationType& op)
+{
+	os << op.ToString();
+	return os;
+}
+//! operator<< overloading for printing JobContainer to out stream directly
+std::ostream& SIMSEMI::operator<<(std::ostream& os, const JobContainer& Jobs)
+{
+	for (size_t j = 0; j < Jobs.size() - 1; j++) {
+		os << Jobs[j].ToString() << ' ';
+	}
+	os << Jobs[Jobs.size() - 1];
+
+	return os;
+}
+
+bool SIMSEMI::operator==(const JobContainer& j1, const JobContainer& j2)
+{
+	if (j1.size() != j2.size()) {
+		return false;
+	}
+	for (JobContainer::const_iterator ci1 = j1.begin(), ci2 = j2.begin()
+		; ci1 != j1.end()
+		; ++ci1, ++ci2 ) {
+		if (*ci1 != *ci2) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool SIMSEMI::operator!=(const JobContainer& j1, const JobContainer& j2)
+{
+	return !(j1==j2);
 }

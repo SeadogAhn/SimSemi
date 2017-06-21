@@ -9,6 +9,7 @@
 #include <utility>
 #include <string>
 #include <ostream>
+#include <sstream>
 
 //! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
@@ -57,13 +58,60 @@ namespace SIMSEMI {
 		double dblElapsedTime;
 	};
 
-	//! a type of element of chromosomes for optimizing fjsp scheduling
-	struct OperationType
-	{
-		size_t nJob;
-		size_t nOperation;
-		size_t nMachine;
+	//! operation type
+	/*
+		O (job, step, machine), and time is depend on the job and the step and the rate of the performance of the machine
+	*/
+	struct OperationType {
+		//! constructor overloading, include default values
+		OperationType(int i = -1, int j = -1, int k = -1, int t = -1) :job(i), step(j), machine(k), prctime(t) {}
+		int job;
+		int step;
+		int machine;
+		int prctime;
+		//! is empty
+		bool empty() const
+		{
+			if (job == -1 || step == -1 || machine == -1 || prctime == -1) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		//! operator== overloading
+		bool operator==(const OperationType& op) const
+		{
+			if (job == op.job && step == op.step && machine == op.machine) {
+				return true;
+			}
+			return false;
+		}
+
+		bool operator!=(const OperationType& op) const
+		{
+			return !(*this == op);
+		}
+		//! operator< overloading
+		bool operator<(const OperationType& op) const
+		{
+			if (job < op.job || (job == op.job && step < op.step)) {
+				return true;
+			}
+			return false;
+		}
+		//! for making a string using members
+		const std::string ToString() const
+		{
+			std::ostringstream oss;
+			oss << "O(" << job << ',' << step << ',' << machine << ')';
+			return oss.str();
+		}
 	};
+
+	//! type define the container of OperationTypes
+	typedef std::vector<OperationType> JobContainer;
+
 }
 
 #endif // __TYPES_HPP__

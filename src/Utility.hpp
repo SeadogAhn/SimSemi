@@ -7,6 +7,7 @@
 // standard libraries
 #include <pthread.h>
 #include <cstdlib>
+#include <cstdint>
 #include <time.h>
 #include <sys/time.h>  // For gettimeofday(), timeval
 
@@ -85,14 +86,14 @@ namespace SIMSEMI {
 			status = pthread_create(&threadid_, 0, thread_, this);
 			return (status == 0);
 		}
-		
+
 		//! Stop the thread. Ungraceful and may result in locking/resource problems.
 		bool stop()
 		{
 			pthread_cancel(threadid_);
 			return true;
 		}
-		
+
 		//! Wait for thread to complete
 		bool wait(unsigned int seconds = 0)
 		{
@@ -119,7 +120,7 @@ namespace SIMSEMI {
 			t->thread();
 			return 0;
 		}
-		
+
 		//! Thread function, Override this in derived classes.
 		virtual void thread() {}
 
@@ -159,35 +160,47 @@ namespace SIMSEMI {
 	private:
 		double starting_;	///< Starting time
 	};
+
+	//! Generating integer random number class
+	/*!
+		range [ nRangeMin_, nRangeMax_ )
+	*/
+	class CIntRandom {
+	public:
+		CIntRandom( int64_t nMin = 0, int64_t nMax = RAND_MAX )
+		{
+			nRangeMin_ = nMin;
+			nRangeMax_ = nMax;
+			srand( (unsigned)time(NULL) );
+		}
+
+		void setRange( int64_t nMin = 0, int64_t nMax = RAND_MAX )
+		{
+			nRangeMin_ = nMin;
+			nRangeMax_ = nMax;
+		}
+
+		int64_t execNumberGenerate()
+		{
+			return ( ( rand() % ( nRangeMax_ - nRangeMin_ ) ) + nRangeMin_ );
+		}
+
+	private:
+		int64_t nRangeMin_;
+		int64_t nRangeMax_;
+	};
+
+	// JobContainer & OperationType operators
+
+	//! operator<< overloading for printing OperationType to out stream directly
+	std::ostream& operator<<(std::ostream& os, const OperationType& op);
+	//! operator<< overloading for printing JobContainer to out stream directly
+	std::ostream& operator<<(std::ostream& os, const JobContainer& Jobs);
+
+	bool operator==(const JobContainer& j1, const JobContainer& j2);
+
+	bool operator!=(const JobContainer& j1, const JobContainer& j2);
+
 }
-
-//! Generating integer random number class
-/*!
-    range [ nRangeMin_, nRangeMax_ )
-*/
-class CIntRandom {
-public:
-	CIntRandom( int nMin = 0, int nMax = RAND_MAX )
-	{
-		nRangeMin_ = nMin;
-		nRangeMax_ = nMax;
-		srand( (unsigned)time(NULL) );
-	}
-
-	void setRange( int nMin = 0, int nMax = RAND_MAX )
-	{
-		nRangeMin_ = nMin;
-		nRangeMax_ = nMax;
-	}
-
-	int execNumberGenerate()
-	{
-		return ( ( rand() % ( nRangeMax_ - nRangeMin_ ) ) + nRangeMin_ );
-	}
-
-private:
-	int nRangeMin_;
-	int nRangeMax_;
-};
 
 #endif // __UTILITY_HPP__
