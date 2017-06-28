@@ -1,8 +1,14 @@
 #include "FeasibleSolutionGenerator.hpp"
 
+#include <vector>
+#include <queue>
 #include <algorithm>
+#include <iostream>
+
+#include <Rcpp.h>
 
 using namespace std;
+using namespace Rcpp;
 using namespace SIMSEMI;
 
 SIMSEMI::CFeasibleSolutionGenerator::CFeasibleSolutionGenerator()
@@ -20,32 +26,57 @@ void SIMSEMI::CFeasibleSolutionGenerator::setOperation(const std::vector<int>& S
 {
 	nJobCnt_ = StepInfo.size();
 	nMachineCnt_ = nMachineCnt;
+	JobsQueue_.resize(nJobCnt_);
+
 	// sum steps of all jobs
 	for (int i = 0 ; i < nJobCnt_ ; nStepCnt_+=StepInfo[i], i++);
 
 	for (int j = 0; j < nJobCnt_; j++) {
 		for (int s = 0; s < StepInfo[j]; s++) {
 			Jobs_.push_back(OperationType(j, s));
+			JobsQueue_[j].push(s);
 		}
 	}
+
+	cout << "JOBS:" << Jobs_ << endl;
 }
 
 const JobContainer SIMSEMI::CFeasibleSolutionGenerator::getRandomFeasibleSolution()
 {
 	JobContainer Jobs;
+	std::vector<std::queue<int> > JobsQueue(JobsQueue_);
 
+	while (1) {
+		if (Jobs.size() == Jobs_.size()) {
+			break;
+		}
+		int r = static_cast<int>(R::runif(0,JobsQueue.size()));
+		if (JobsQueue[r].empty()) {
+			continue;
+			//std::vector<std::queue<int> >::iterator it = JobsQueue.begin() + r;
+			//JobsQueue.erase(it);
+		}
+		else {
+			Jobs.push_back(OperationType(r, JobsQueue[r].front()));
+			JobsQueue[r].pop();
+		}
+	}
 	initMachine(Jobs);
 	return Jobs;
 }
 
-const std::vector<JobContainer> SIMSEMI::CFeasibleSolutionGenerator::getRandomFeasibleSolutions(int n)
+const JobsContainer SIMSEMI::CFeasibleSolutionGenerator::getRandomFeasibleSolutions(size_t n, const JobsContainer& solutions)
 {
-	std::vector<JobContainer> tempContainer;
+	JobsContainer tempContainer;
 	while (tempContainer.size() < n) {
 		JobContainer tempJobs = getRandomFeasibleSolution();
-		if (find(tempContainer.begin(), tempContainer.end(), tempJobs) != tempContainer.end()) {
-			tempContainer.push_back(tempJobs);
+		if (!solutions.empty() && find(solutions.begin(), solutions.end(), tempJobs) != solutions.end()) {
+			continue;
 		}
+		if (find(tempContainer.begin(), tempContainer.end(), tempJobs) != tempContainer.end()) {
+			continue;
+		}
+		tempContainer.push_back(tempJobs);
 	}
 	return tempContainer;
 }
@@ -71,7 +102,8 @@ bool SIMSEMI::CFeasibleSolutionGenerator::checkPolicy(const JobContainer& Jobs)
 {
 	for (size_t p1 = 0; p1 < Jobs.size() - 1; p1++) {
 		for (size_t p2 = p1 + 1; p2 < Jobs.size(); p2++) {
-			if ((Jobs[p1].job == Jobs[p2].job) && Jobs[p1].step > Jobs[p2].step) {
+			// p1, p2 job and machine are same but p1 step is greater than p2
+			if ((Jobs[p1].job == Jobs[p2].job) && Jobs[p1].step > Jobs[p2].step && Jobs[p1].machine == Jobs[p2].machine) {
 				return false;
 			}
 		}
@@ -79,26 +111,19 @@ bool SIMSEMI::CFeasibleSolutionGenerator::checkPolicy(const JobContainer& Jobs)
 	return true;
 }
 
+double SIMSEMI::CFeasibleSolutionGenerator::evaluateJobs(const JobContainer& Jobs)
+{
+	double val = 0.;
+
+	return val;
+}
+
 void SIMSEMI::CFeasibleSolutionGenerator::initMachine(JobContainer& Jobs)
 {
 	if (Jobs.empty())
 		return;
 
-	int64_t nRndMax = (uint64_t)(pow((double)(nMachineCnt_), (double)(nStepCnt_)));
-	CIntRandom rnd(0, nRndMax);
-
-	int64_t n = rnd.execNumberGenerate();
-
-	// create vectmachine and initialize elements
-	vector<int> vecMachine(Jobs.size());
-
-	for (int i = vecMachine.size() - 1 ; i >= 0; i--) {
-		if (n <= 0) break;
-		vecMachine[i] = n % nMachineCnt_;
-		n = (n - vecMachine[i]) / nMachineCnt_;
-	}
-
-	for (size_t i = 0; i < Jobs.size(); i++) {
-		Jobs[i].machine = vecMachine[i];
+	for (size_t i = 0 ; i < Jobs.size() ; i++) {
+		Jobs[i].machine =  static_cast<int>(R::runif(0,nMachineCnt_));
 	}
 }

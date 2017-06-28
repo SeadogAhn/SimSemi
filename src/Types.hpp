@@ -44,12 +44,13 @@ namespace SIMSEMI {
 		double dblLimitRateOperation;	///< maximum operation rate 0. ~ 1.
 	};
 
+	//! machine log
 	struct MachineLogType
 	{
 		//! clear all members
 		void clear();
 		//! to string
-		const std::string toString();
+		const std::string ToString();
 
 		std::string strPartID;
 		std::string strLotID;
@@ -64,7 +65,7 @@ namespace SIMSEMI {
 	*/
 	struct OperationType {
 		//! constructor overloading, include default values
-		OperationType(int i = -1, int j = -1, int k = -1, int t = -1) :job(i), step(j), machine(k), prctime(t) {}
+		OperationType(int i = -1, int j = -1, int k = -1, int t = 1) :job(i), step(j), machine(k), prctime(t) {}
 		int job;
 		int step;
 		int machine;
@@ -72,7 +73,7 @@ namespace SIMSEMI {
 		//! is empty
 		bool empty() const
 		{
-			if (job == -1 || step == -1 || machine == -1 || prctime == -1) {
+			if (job == -1 || step == -1 || machine == -1) {
 				return true;
 			}
 			else {
@@ -82,7 +83,7 @@ namespace SIMSEMI {
 		//! operator== overloading
 		bool operator==(const OperationType& op) const
 		{
-			if (job == op.job && step == op.step && machine == op.machine) {
+			if (job == op.job && step == op.step) {
 				return true;
 			}
 			return false;
@@ -109,9 +110,20 @@ namespace SIMSEMI {
 		}
 	};
 
+
+	//-------------------------------------------------------------------------
+	// define conatiners
+	typedef std::vector<int>	Vec_INT;
+	typedef std::vector<double> Vec_DBL;
+	typedef std::vector<std::string> Vec_STR;
+
+	//! define the container of products
+	typedef std::vector<ProductAttributeType> ProductContainer;
+
 	//! type define the container of OperationTypes
 	typedef std::vector<OperationType> JobContainer;
-
+	//! container of job container
+	typedef std::vector<JobContainer> JobsContainer;
 }
 
 #endif // __TYPES_HPP__

@@ -5,19 +5,19 @@
 
 using namespace Rcpp;
 
-// rcpp_hello
-List rcpp_hello();
-RcppExport SEXP SimSemi_rcpp_hello() {
+// TestMain
+std::string TestMain();
+RcppExport SEXP SimSemi_TestMain() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello());
+    rcpp_result_gen = Rcpp::wrap(TestMain());
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"SimSemi_rcpp_hello", (DL_FUNC) &SimSemi_rcpp_hello, 0},
+    {"SimSemi_TestMain", (DL_FUNC) &SimSemi_TestMain, 0},
     {NULL, NULL, 0}
 };
 

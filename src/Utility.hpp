@@ -7,7 +7,7 @@
 // standard libraries
 #include <pthread.h>
 #include <cstdlib>
-#include <cstdint>
+#include <limits>
 #include <time.h>
 #include <sys/time.h>  // For gettimeofday(), timeval
 
@@ -167,27 +167,27 @@ namespace SIMSEMI {
 	*/
 	class CIntRandom {
 	public:
-		CIntRandom( int64_t nMin = 0, int64_t nMax = RAND_MAX )
+		CIntRandom( int nMin = 0, int nMax = RAND_MAX )
 		{
 			nRangeMin_ = nMin;
 			nRangeMax_ = nMax;
+		}
+
+		void setRange( int nMin = 0, int nMax = RAND_MAX )
+		{
+			nRangeMin_ = nMin;
+			nRangeMax_ = nMax;
+		}
+
+		int execNumberGenerate()
+		{
 			srand( (unsigned)time(NULL) );
-		}
-
-		void setRange( int64_t nMin = 0, int64_t nMax = RAND_MAX )
-		{
-			nRangeMin_ = nMin;
-			nRangeMax_ = nMax;
-		}
-
-		int64_t execNumberGenerate()
-		{
 			return ( ( rand() % ( nRangeMax_ - nRangeMin_ ) ) + nRangeMin_ );
 		}
 
 	private:
-		int64_t nRangeMin_;
-		int64_t nRangeMax_;
+		int nRangeMin_;
+		int nRangeMax_;
 	};
 
 	// JobContainer & OperationType operators
@@ -200,7 +200,6 @@ namespace SIMSEMI {
 	bool operator==(const JobContainer& j1, const JobContainer& j2);
 
 	bool operator!=(const JobContainer& j1, const JobContainer& j2);
-
 }
 
 #endif // __UTILITY_HPP__

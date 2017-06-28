@@ -13,8 +13,6 @@ namespace SIMSEMI {
     class CProductGenerator
     {
     public:
-		//! define the container of products
-		typedef std::vector<ProductAttributeType> ProductContainer;
 		//! ;default constructor
     	CProductGenerator();
 		//! overloading constructor
@@ -44,7 +42,6 @@ namespace SIMSEMI {
 
 		ProductContainer Products_; ///< container of products
     };
-
 }
 
 #endif // __PRODUCT_GENERATOR_HPP__

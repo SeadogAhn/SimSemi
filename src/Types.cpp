@@ -29,7 +29,7 @@ void SIMSEMI::MachineLogType::clear()
 	dblElapsedTime = 0.;
 }
 
-const std::string SIMSEMI::MachineLogType::toString()
+const std::string SIMSEMI::MachineLogType::ToString()
 {
 	std::ostringstream oss;
 
