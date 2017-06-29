@@ -28,7 +28,6 @@ void SIMSEMI::CGeneticAlgorithm::init(int population, int loop, double crossover
 
 void SIMSEMI::CGeneticAlgorithm::execOptimalSolutionGeneration(const std::vector<int>& StepInfo, int nMachineCnt)
 {
-	cout << __FUNCTION__ << ":START" << endl;
 
 	FeasibleSolutionGenerator_.setOperation(StepInfo, nMachineCnt);
 	//setPopulation();
@@ -45,12 +44,11 @@ void SIMSEMI::CGeneticAlgorithm::execOptimalSolutionGeneration(const std::vector
 			GlobalBestSolution_ = Offspring_;
 			//EvaluatedVals_.push_back(ofs);
 			FeasibleSolutionGenerator_.makeGanttTableData(GlobalBestSolution_);
-			//cout << "Global Best Solution's evaluated value:" << ofs << endl;
-			//cout << GlobalBestSolution_ << endl;
+			cout << "Global Best Solution's evaluated value:" << ofs << endl;
+			cout << GlobalBestSolution_ << endl;
 		}
 		EvaluatedVals_.push_back(gbs);
 	}
-	cout << __FUNCTION__ << ":END" << endl;
 }
 
 void SIMSEMI::CGeneticAlgorithm::setPopulation()
@@ -99,6 +97,7 @@ void SIMSEMI::CGeneticAlgorithm::crossover()
 			if (FeasibleSolutionGenerator_.checkPolicy(Offspring_)) break;
 		}
 	}
+	//cout << "Offspring:" <<  Offspring_ << endl;
 }
 
 void SIMSEMI::CGeneticAlgorithm::mutation()

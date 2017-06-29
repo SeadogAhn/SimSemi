@@ -21,7 +21,6 @@ List TestMain(const int& n, const int& m)
 
 	CGeneticAlgorithm ga;
 	ga.execOptimalSolutionGeneration(Vec_INT(arrInt, arrInt+nJobCnt), nMachine);
-
 	JobContainer jobs = ga.getOptimalSolution();
 	ostringstream oss;
 	oss << jobs;
