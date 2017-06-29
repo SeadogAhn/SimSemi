@@ -6,28 +6,30 @@ using namespace std;
 using namespace Rcpp;
 using namespace SIMSEMI;
 
-SIMSEMI::CGeneticAlgorithm::CGeneticAlgorithm()
+SIMSEMI::CGeneticAlgorithm::CGeneticAlgorithm(int population, int loop, double crossover, double mutation)
 {
-	init();
+	init(population, loop, crossover, mutation);
 }
 
 SIMSEMI::CGeneticAlgorithm::~CGeneticAlgorithm()
 {
 }
 
-void SIMSEMI::CGeneticAlgorithm::init()
+void SIMSEMI::CGeneticAlgorithm::init(int population, int loop, double crossover, double mutation)
 {
 	JobsContainer().swap(Population_);
 	JobContainer().swap(GlobalBestSolution_);
 	// default values
-	nPopulationSize_ = 100;
-	nGenerationLoopLimit_ = 10000;
-	dblCrossoverRate_ = 0.5;
-	dblMutationRate_ = 0.2;
+	nPopulationSize_ = population;
+	nGenerationLoopLimit_ = loop;
+	dblCrossoverRate_ = crossover;
+	dblMutationRate_ = mutation;
 }
 
 void SIMSEMI::CGeneticAlgorithm::execOptimalSolutionGeneration(const std::vector<int>& StepInfo, int nMachineCnt)
 {
+	cout << __FUNCTION__ << ":START" << endl;
+
 	FeasibleSolutionGenerator_.setOperation(StepInfo, nMachineCnt);
 	//setPopulation();
 	double gbs = numeric_limits<double>::max();
@@ -41,11 +43,14 @@ void SIMSEMI::CGeneticAlgorithm::execOptimalSolutionGeneration(const std::vector
 		if (gbs > ofs) {
 			gbs = ofs;
 			GlobalBestSolution_ = Offspring_;
-			EvaluatedVals_.push_back(gbs);
-			cout << "Global Best Solution's evaluated value:" << ofs << endl;
-			cout << GlobalBestSolution_ << endl;
+			//EvaluatedVals_.push_back(ofs);
+			FeasibleSolutionGenerator_.makeGanttTableData(GlobalBestSolution_);
+			//cout << "Global Best Solution's evaluated value:" << ofs << endl;
+			//cout << GlobalBestSolution_ << endl;
 		}
+		EvaluatedVals_.push_back(gbs);
 	}
+	cout << __FUNCTION__ << ":END" << endl;
 }
 
 void SIMSEMI::CGeneticAlgorithm::setPopulation()
@@ -56,46 +61,43 @@ void SIMSEMI::CGeneticAlgorithm::setPopulation()
 void SIMSEMI::CGeneticAlgorithm::selection()
 {
 	while (1) {
+		// Population_[static_cast<int>(R::runif(0,nPopulationSize_))];
 		Parent1_ = FeasibleSolutionGenerator_.getRandomFeasibleSolution();
 		Parent2_ = FeasibleSolutionGenerator_.getRandomFeasibleSolution();
 		if (Parent1_ != Parent2_) {
 			break;
 		}
 	}
-	cout << "P1:" << Parent1_ << endl;
-	cout << "P2:" << Parent2_ << endl;
+	//cout << "P1:" << Parent1_ << endl;
+	//cout << "P2:" << Parent2_ << endl;
 }
 
 void SIMSEMI::CGeneticAlgorithm::crossover()
 {
-	double r = R::runif(0,1);
 	size_t cp = 0;
+	double r = R::runif(0,1);
+	if (r < dblCrossoverRate_) {
+		while (1) {
+			// clear offspring
+			JobContainer().swap(Offspring_);
+			cp = static_cast<int>(R::runif(0,Parent1_.size()));
+			/*
+				       cp
+				    |  |   |
+				p1 1093457682
+				p2 2193468750
+				o  1093246875
+			*/
 
-	while (1) {
-		// clear offspring
-		JobContainer().swap(Offspring_);
-		cp = static_cast<int>(R::runif(1,Parent1_.size()-1));
-		/*
-			       cp
-			    |  |   |
-			p1 1093457682
-			p2 2193468750
-			o  1093246875
-		*/
-
-		Offspring_.insert(Offspring_.begin(), Parent1_.begin(), Parent1_.begin()+cp);
-		for (size_t i = 0 ; i < Parent2_.size() ; i++) {
-			if ( find(Offspring_.begin(), Offspring_.end(), Parent2_[i]) == Offspring_.end() ) {
-				Offspring_.push_back(Parent2_[i]);
+			Offspring_.insert(Offspring_.begin(), Parent1_.begin(), Parent1_.begin()+cp);
+			for (size_t i = 0 ; i < Parent2_.size() ; i++) {
+				if ( find(Offspring_.begin(), Offspring_.end(), Parent2_[i]) == Offspring_.end() ) {
+					Offspring_.push_back(Parent2_[i]);
+				}
 			}
-		}
 
-		/*
-		if (FeasibleSolutionGenerator_.checkPolicy(Offspring_)) {
-			break;
+			if (FeasibleSolutionGenerator_.checkPolicy(Offspring_)) break;
 		}
-		 */
-		break;
 	}
 }
 
@@ -103,7 +105,9 @@ void SIMSEMI::CGeneticAlgorithm::mutation()
 {
 	double r = R::runif(0,1);
 	if (r < dblMutationRate_) {
-		Offspring_ = FeasibleSolutionGenerator_.getNeighborhoodJobs(Offspring_);
+		size_t cp1 = static_cast<int>(R::runif(0,Offspring_.size()));
+		size_t cp2 = static_cast<int>(R::runif(0,Offspring_.size()));
+		swap(Offspring_[cp1].machine, Offspring_[cp2].machine);
 	}
 }
 

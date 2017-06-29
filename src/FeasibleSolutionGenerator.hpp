@@ -6,6 +6,7 @@
 #include "Utility.hpp"
 
 // standard libraries
+#include <vector>
 #include <queue>
 
 //! the namespace of the simulation for the manufacturing semiconductor process
@@ -14,6 +15,8 @@ namespace SIMSEMI {
 	class CFeasibleSolutionGenerator
 	{
 	public:
+		typedef std::vector<std::vector< OperationTimeType > > MachineJobOrderType;
+		typedef std::vector<std::queue<int> > JobQueueType;
 		//! default constructor
 		CFeasibleSolutionGenerator();
 		//! destructor
@@ -47,9 +50,16 @@ namespace SIMSEMI {
 			\param Jobs
 		*/
 		bool checkPolicy(const JobContainer& Jobs);
-		//
 		//! evaluate Jobs
+		/*!
+			\param Jobs
+		*/
 		double evaluateJobs(const JobContainer& Jobs);
+		//! make table data for drawing gantt chart
+		/*!
+			\param Job order container
+		*/
+		void makeGanttTableData(const JobContainer& Jobs);
 	protected:
 
 	private:
@@ -64,8 +74,14 @@ namespace SIMSEMI {
 			\param Jobs Job container
 		*/
 		void initMachine(JobContainer& Jobs);
+		//! generation machine job order
+		/*!
+			\param Jobs
+		 */
+		void generateMachineJobOrder( const JobContainer& Jobs );
 
-		std::vector<std::queue<int> > JobsQueue_; ///< queue in the conatiner for generating Jobs randomly
+		MachineJobOrderType MachineJobOrders_;
+		JobQueueType JobsQueue_; ///< queue in the conatiner for generating Jobs randomly
 		JobContainer Jobs_;	///< Jobs
 		int nJobCnt_;		///< Job count
 		int nStepCnt_;		///< step count, the step is similar to operation

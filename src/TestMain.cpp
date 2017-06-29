@@ -9,20 +9,21 @@ using namespace Rcpp;
 using namespace SIMSEMI;
 
 // [[Rcpp::export]]
-std::string TestMain()
+List TestMain(const int& n, const int& m)
 {
-	int arrInt[] = { 3, 2, 1, 1, 2, 3, 3, 3, 3, 2, 2, 2, 1, 2, 3 };
+	int arrInt[n];
+	for (int i = 0 ; i < n ; i++ ) {
+		arrInt[i] = static_cast<int>(R::runif(1,4));
+	}
+
 	size_t nJobCnt = sizeof(arrInt)/sizeof(*arrInt);
-	int nMachine = 10;
+	int nMachine = m;
 
 	CGeneticAlgorithm ga;
 	ga.execOptimalSolutionGeneration(Vec_INT(arrInt, arrInt+nJobCnt), nMachine);
 
-
 	JobContainer jobs = ga.getOptimalSolution();
-	sort(jobs.begin(), jobs.end());
 	ostringstream oss;
 	oss << jobs;
-
-	return oss.str();
+	return List::create(oss.str(), ga.getEvaluatedVals());
 }

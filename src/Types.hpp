@@ -10,6 +10,7 @@
 #include <string>
 #include <ostream>
 #include <sstream>
+#include <Rcpp.h>
 
 //! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
@@ -65,11 +66,11 @@ namespace SIMSEMI {
 	*/
 	struct OperationType {
 		//! constructor overloading, include default values
-		OperationType(int i = -1, int j = -1, int k = -1, int t = 1) :job(i), step(j), machine(k), prctime(t) {}
-		int job;
-		int step;
-		int machine;
-		int prctime;
+		OperationType(int i = -1, int j = -1, int k = -1, int t = static_cast<int>(R::runif(20,100))) :job(i), step(j), machine(k), prctime(t) {}
+		int job;		///< number of job
+		int step;		///< number of step
+		int machine;	///< number of machine
+		int prctime;	///< process time
 		//! is empty
 		bool empty() const
 		{
@@ -105,11 +106,16 @@ namespace SIMSEMI {
 		const std::string ToString() const
 		{
 			std::ostringstream oss;
-			oss << "O(" << job << ',' << step << ',' << machine << ')';
+			oss << "O(" << job << ',' << step << ',' << machine << ',' << prctime << ')';
 			return oss.str();
 		}
 	};
 
+	struct OperationTimeType {
+		OperationType Operation;
+		double dblStartTime;
+		double dblEndTime;
+	};
 
 	//-------------------------------------------------------------------------
 	// define conatiners

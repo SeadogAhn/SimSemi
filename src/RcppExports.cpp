@@ -6,18 +6,20 @@
 using namespace Rcpp;
 
 // TestMain
-std::string TestMain();
-RcppExport SEXP SimSemi_TestMain() {
+List TestMain(const int& n, const int& m);
+RcppExport SEXP SimSemi_TestMain(SEXP nSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(TestMain());
+    Rcpp::traits::input_parameter< const int& >::type n(nSEXP);
+    Rcpp::traits::input_parameter< const int& >::type m(mSEXP);
+    rcpp_result_gen = Rcpp::wrap(TestMain(n, m));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"SimSemi_TestMain", (DL_FUNC) &SimSemi_TestMain, 0},
+    {"SimSemi_TestMain", (DL_FUNC) &SimSemi_TestMain, 2},
     {NULL, NULL, 0}
 };
 

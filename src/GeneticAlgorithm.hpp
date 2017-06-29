@@ -13,7 +13,13 @@ namespace SIMSEMI {
 	{
 	public:
 		//! default constructor
-		CGeneticAlgorithm();
+		/*!
+			\param population Population size
+		 	\param loop the number of the looping
+		 	\param crossover Crossover Rate
+		 	\param mutation Mutation Rate
+		 */
+		CGeneticAlgorithm(int population = 5000, int loop = 500, double crossover = 0.6, double mutation = 0.2);
 		//! destructor
 		~CGeneticAlgorithm();
 		//! execute to generate a optimal solution
@@ -30,7 +36,7 @@ namespace SIMSEMI {
 
 	private:
 		//! initialize all memebers
-		void init();
+		void init(int population, int loop, double crossover, double mutation);
 		//! set population size
 		/*!
 			\param n size of population
