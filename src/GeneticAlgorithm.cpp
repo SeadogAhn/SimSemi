@@ -43,12 +43,13 @@ void SIMSEMI::CGeneticAlgorithm::execOptimalSolutionGeneration(const std::vector
 			gbs = ofs;
 			GlobalBestSolution_ = Offspring_;
 			//EvaluatedVals_.push_back(ofs);
-			FeasibleSolutionGenerator_.makeGanttTableData(GlobalBestSolution_);
 			cout << "Global Best Solution's evaluated value:" << ofs << endl;
 			cout << GlobalBestSolution_ << endl;
 		}
 		EvaluatedVals_.push_back(gbs);
 	}
+
+	FeasibleSolutionGenerator_.makeGanttTableData(GlobalBestSolution_);
 }
 
 void SIMSEMI::CGeneticAlgorithm::setPopulation()

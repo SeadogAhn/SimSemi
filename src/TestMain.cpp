@@ -9,7 +9,7 @@ using namespace Rcpp;
 using namespace SIMSEMI;
 
 // [[Rcpp::export]]
-List TestMain(const int& n, const int& m)
+List TestMain(const int& n, const int& m, int population = 5000, int loop = 500, double crossover = 1., double mutation = 0.2)
 {
 	int arrInt[n];
 	for (int i = 0 ; i < n ; i++ ) {
@@ -19,7 +19,7 @@ List TestMain(const int& n, const int& m)
 	size_t nJobCnt = sizeof(arrInt)/sizeof(*arrInt);
 	int nMachine = m;
 
-	CGeneticAlgorithm ga;
+	CGeneticAlgorithm ga(population, loop, crossover, mutation);
 	ga.execOptimalSolutionGeneration(Vec_INT(arrInt, arrInt+nJobCnt), nMachine);
 	JobContainer jobs = ga.getOptimalSolution();
 	ostringstream oss;

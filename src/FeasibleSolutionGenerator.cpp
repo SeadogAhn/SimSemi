@@ -92,6 +92,8 @@ void SIMSEMI::CFeasibleSolutionGenerator::generateMachineJobOrder( const JobCont
 	MachineJobOrderType().swap(MachineJobOrders_);
 	MachineJobOrders_.resize(nMachineCnt_);
 
+	// wait time when product is changed
+	const int nWaitTimeForChangingProduct = 5;
 	// operation loop
 	for ( size_t nPosJob = 0 ; nPosJob < Jobs.size() ; nPosJob++ ) {
 		OperationTimeType ot;
@@ -104,7 +106,7 @@ void SIMSEMI::CFeasibleSolutionGenerator::generateMachineJobOrder( const JobCont
 				ot.dblEndTime = Jobs[nPosJob].prctime;
 			}
 			else {
-				ot.dblStartTime = MachineJobOrders_[Jobs[nPosJob].machine].back().dblEndTime;
+				ot.dblStartTime = MachineJobOrders_[Jobs[nPosJob].machine].back().dblEndTime + nWaitTimeForChangingProduct;
 				ot.dblEndTime = ot.dblStartTime + Jobs[nPosJob].prctime;
 			}
 		}
@@ -116,7 +118,7 @@ void SIMSEMI::CFeasibleSolutionGenerator::generateMachineJobOrder( const JobCont
 				for ( size_t nPosJobOrder = 0 ; nPosJobOrder < MachineJobOrders_[nPosMachine].size() ; nPosJobOrder++ ) {
 					if ( Jobs[nPosJob].job == MachineJobOrders_[nPosMachine][nPosJobOrder].Operation.job
               			&& Jobs[nPosJob].step - 1 == MachineJobOrders_[nPosMachine][nPosJobOrder].Operation.step ) {
-						preStepEndTime = MachineJobOrders_[nPosMachine][nPosJobOrder].dblEndTime;
+						preStepEndTime = MachineJobOrders_[nPosMachine][nPosJobOrder].dblEndTime + nWaitTimeForChangingProduct;
 					}
 				}
 			}
@@ -131,7 +133,7 @@ void SIMSEMI::CFeasibleSolutionGenerator::generateMachineJobOrder( const JobCont
 					ot.dblEndTime = ot.dblStartTime + Jobs[nPosJob].prctime;
 				}
 				else {
-					ot.dblStartTime = MachineJobOrders_[Jobs[nPosJob].machine].back().dblEndTime;
+					ot.dblStartTime = MachineJobOrders_[Jobs[nPosJob].machine].back().dblEndTime + nWaitTimeForChangingProduct;
 					ot.dblEndTime = ot.dblStartTime + Jobs[nPosJob].prctime;
 				}
 			}
@@ -164,7 +166,7 @@ void SIMSEMI::CFeasibleSolutionGenerator::makeGanttTableData(const JobContainer&
 
 	generateMachineJobOrder( Jobs );
 
-	ofs << "MACHINE,OPERATION,START,END" << endl;
+	ofs << "group|content|start|end" << endl;
 	for ( size_t nPosMachine = 0 ; nPosMachine < MachineJobOrders_.size() ; nPosMachine++ ) {
 		for ( size_t nPosJobOrder = 0 ; nPosJobOrder < MachineJobOrders_[nPosMachine].size() ; nPosJobOrder++ ) {
 			ofs << nPosMachine
