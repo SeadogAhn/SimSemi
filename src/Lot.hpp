@@ -3,7 +3,6 @@
 
 // SIMSEMI headers
 #include "Types.hpp"
-#include "Wafer.hpp"
 // standard libraries
 #include <vector>
 
@@ -13,63 +12,54 @@ namespace SIMSEMI {
     class CLot
     {
     public:
-		typedef std::vector<CWafer> WaferContainer;
+		//! container of yields of wafers
+		typedef Vec_DBL WaferContainer;
         //! default constructor
         CLot();
 		//! overloading constructor
 		/*! construct and initialize a object by SProductAttributeType
-			\param prodattr Attribute of the Product
+			\param nLot Lot id
+			\param nWaferCnt count of wafers
 		*/
-		CLot(const ProductAttributeType& prodattr);
+		CLot(int nLot, int nWaferCnt);
         //! destructor
         virtual ~CLot();
-
 		//! operator==
-		bool operator==(const CLot& lot) { return lot.strLotID_ == strLotID_; }
-
-		// set members
-        //! set product attribute
-		/*!
-			\param prodattr Attribute of the Product
-		*/
-		void setProductAttribute(const ProductAttributeType& prodattr);
-		//! set wafers' yield by a tester(a machine)
-        void setWaferYield( int nWaferNo, double dblYield );
+		bool operator==(const CLot& lot) { return nLot_ == lot.nLot_; }
 		//! scrap a wafer
 		/*!
 			\param dblYieldLimit
 		*/
-		int scrapWafer( double dblYieldLimit );
+		int ScrapWafer( double dblYieldLimit );
 		//! empty
 		/*!
 			\return is there no wafer in wafer container
 		*/
-		bool empty() const { return Wafers_.empty(); }
-
-		// get members directly
-		//! get product attribute
-		const ProductAttributeType& getProductAttribute() const { return ProductAttribute_; }
-		//! get lotid
-		const std::string& getLotID() const { return strLotID_; }
-		//! get wafer container
-		const WaferContainer& getWafers() const { return Wafers_; }
-		//! get wafer count in a LOT
-        size_t getWaferCount() const { return Wafers_.size(); }
-		//! get priority
-		int getPriority() const { return nPriority_; }
+		bool Empty() const { return Wafers_.empty(); }
+		// Get members directly
+		//! Get lotid
+		int GetLotID() const { return nLot_; }
+		//! Get wafer container
+		/*!
+			\return wafer container reference for setting yield by machines
+		*/
+		WaferContainer& GetWafers() { return Wafers_; }
+		//! Get wafer container
+		/*!
+			\return const wafer container reference for analyzing wafer yield
+		*/
+		const WaferContainer& GetWafers() const { return Wafers_; }
+		//! Get wafer count in a LOT
+		/*!
+			\return size of the Wafers_
+		*/
+        size_t GetWaferCount() const { return Wafers_.size(); }
 
     protected:
 
     private:
-		//! create and initialize wafers in a lot
-		void init();
-		//! destroy a lot
-		void destroy();
-
-		ProductAttributeType ProductAttribute_; ///< Product Attribute
-		std::string strLotID_;		///< Lot ID
-		WaferContainer Wafers_;		///< wafer container, max 25
-        int nPriority_;				///< Lot priority
+		int nLot_;				///< Lot ID
+		WaferContainer Wafers_;	///< wafer container, max 25
     };
 }
 

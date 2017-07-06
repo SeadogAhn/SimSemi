@@ -3,44 +3,41 @@
 
 // SIMSEMI headers
 #include "Types.hpp"
+#include "Lot.hpp"
+#include "ProductSpecification.hpp"
 
 // standard libraries
-#include <vector>
+
 
 //! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
     //! Product Generator
-    class CProductGenerator
+    class CProductGenerator : public CProductSpecification
     {
     public:
+		typedef std::vector< CLot > LotContainer;
+		// key : partid, value : lot
+		typedef std::map< int, LotContainer > ProductContainer;
 		//! ;default constructor
     	CProductGenerator();
-		//! overloading constructor
-		/*!
-			\param n kind of products
-		*/
-		explicit CProductGenerator( int n );
 		//! destructor
     	~CProductGenerator();
-		//! set count of products
-		void setSizeOfProducts( int n );
-		//! get the container of the products
-		const ProductContainer& getProducts() const { return Products_; }
+		//! initialize Master Plan
+		/*!
+			\param strFileName a file name of master plan
+		*/
+		void InitProductMasterPlan(const std::string& strFileName);
+		//! Get the container of the products
+		/*!
+			\param Product Container
+		*/
+		const ProductContainer& GetProducts() const { return Products_; }
 
     private:
-		//! make a attribute of a product
-		const ProductAttributeType makeProductAttribute( int i );
-		//! generate a random number between 1 and 3
-		int genStepSize();
-		//! generate a random number for testing time a wafer
-		/*!
-			\param n times
-			\return container of to be generated test times
-		*/
-		const ProductAttributeType::TestTimeContainer genTestTime( int n );
+		//! make Lots
+		LotContainer MakeLots(int nQuantity);
 
-
-		ProductContainer Products_; ///< container of products
+		ProductContainer Products_;	///< container of lots
     };
 }
 

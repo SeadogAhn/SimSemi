@@ -136,8 +136,8 @@ namespace SIMSEMI {
 		// Return elapsed time, in milliseconds or sec
 		double msec () const { return sec() * 1000;}
 		double sec  () const;
-		// Reset the current time
-		void reset ();
+		// ReSet the current time
+		void reSet ();
 	private:
 		clock_t starting_;	///< Starting time
 	};
@@ -154,8 +154,8 @@ namespace SIMSEMI {
 		double msec () const;
 		//! Return elapsed time, in seconds
 		double sec () const;
-		//! Reset the current time
-		void reset ();
+		//! ReSet the current time
+		void reSet ();
 
 	private:
 		double starting_;	///< Starting time
@@ -173,7 +173,7 @@ namespace SIMSEMI {
 			nRangeMax_ = nMax;
 		}
 
-		void setRange( int nMin = 0, int nMax = RAND_MAX )
+		void SetRange( int nMin = 0, int nMax = RAND_MAX )
 		{
 			nRangeMin_ = nMin;
 			nRangeMax_ = nMax;
@@ -190,16 +190,50 @@ namespace SIMSEMI {
 		int nRangeMax_;
 	};
 
-	// JobContainer & OperationType operators
+	///////////////////////////////////////////////////////////////////////////
+	// operator overloading
 
+	// OperationContainer & OperationType operators
 	//! operator<< overloading for printing OperationType to out stream directly
 	std::ostream& operator<<(std::ostream& os, const OperationType& op);
-	//! operator<< overloading for printing JobContainer to out stream directly
-	std::ostream& operator<<(std::ostream& os, const JobContainer& Jobs);
+	//! operator<< overloading for printing OperationContainer to out stream directly
+	std::ostream& operator<<(std::ostream& os, const OperationContainer& Operations);
+	//! compare equare
+	bool operator==(const OperationContainer& j1, const OperationContainer& j2);
+	//! compare not equare
+	bool operator!=(const OperationContainer& j1, const OperationContainer& j2);
 
-	bool operator==(const JobContainer& j1, const JobContainer& j2);
+	///////////////////////////////////////////////////////////////////////////
+	// utility functions
 
-	bool operator!=(const JobContainer& j1, const JobContainer& j2);
+	template < typename Container = std::vector<std::string> >
+	void fnStringSpliter( Container& container, std::string const & strSource, const char* const chDelimiters = " \t\n,|")
+	{
+		const std::string::size_type len = strSource.length();
+		std::string::size_type i = 0;
+
+		while (i < len)
+		{
+			// Eat leading whitespace
+			i = strSource.find_first_not_of(chDelimiters, i);
+			if (i == std::string::npos)
+				return;   // Nothing left but white space
+
+			// Find the end of the token
+			std::string::size_type j = strSource.find_first_of(chDelimiters, i);
+
+			// Push token
+			if (j == std::string::npos) {
+				container.push_back(strSource.substr(i));
+				return;
+			}
+			else {
+				container.push_back(strSource.substr(i, j-i));
+			}
+			// Set up for next loop
+			i = j + 1;
+		}
+	}
 }
 
 #endif // __UTILITY_HPP__

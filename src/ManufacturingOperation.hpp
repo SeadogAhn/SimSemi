@@ -22,11 +22,19 @@ namespace SIMSEMI {
         CManufacturingOperation();
         //! destructor
         ~CManufacturingOperation();
-		//! set product count
-		void setProducts( int n );
+		//! generate products
+		/*!
+			\param strProductSpecFileName product specification file name
+			\param strMasterPlanFileName product master plan file name
+		*/
+		void GenerateProducts(const std::string& strProductSpecFileName, const std::string& strMasterPlanFileName);
+		//! get products
+		/*!
+			return generated product from CProductGenerator object
+		*/
+		const CProductGenerator::ProductContainer& GetProducts() const;
 
     protected:
-		
 
     private:
 		CProductGenerator ProductGenerator_;

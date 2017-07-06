@@ -2,6 +2,8 @@
 #define __MACHINE_HPP__
 
 // SIMSEMI headers
+#include "Types.hpp"
+#include "Utility.hpp"
 #include "Lot.hpp"
 #include "ProbeCard.hpp"
 // standard libraries
@@ -20,7 +22,7 @@ namespace SIMSEMI {
     };
 
     //! Set of Tester and Prober
-    class CMachine
+    class CMachine : public CThread
     {
     public:
 		// public type define
@@ -31,48 +33,50 @@ namespace SIMSEMI {
 		CMachine(const MachineAttributeType& ma, const CProbeCard& pc);
         //! destructor
         ~CMachine();
-        //! set attribute of the machine
+        //! Set attribute of the machine
 		/*!
 			\param ma Machine attribute
 			\param pc probe card
 		*/
-        void setMachineAttribute( const MachineAttributeType& ma );
+        void SetMachineAttribute( const MachineAttributeType& ma );
         //! load a Probe card
 		/*!
 			\param ma Machine attribute
 			\param pc probe card
 		*/
-        void setProbeCard( const CProbeCard& pc );
+        void SetProbeCard( const CProbeCard& pc );
 		//! operate a Lot
 		/*!
 			\param lot TKIN a lot
 			\return TKOUT the lot
 		*/
-		CLot& operateLot(CLot& lot);
+		CLot& OperateLot(CLot& lot);
 
-        //! get utilization of the machine
+        //! Get utilization of the machine
 		/*!
 			\return Summary of utilization of machine
 		*/
-        const double getSummaryUtilizationMachine();
+        const double GetSummaryUtilizationMachine();
 
-		//! get to be set product information
-		const ProcessInfoType getToBeSetProdInfo() const { return ProbeCard_.getProdInfo(); }
-		//! get probe card
-        const CProbeCard& getProbeCard() const { return ProbeCard_; }
-		//! get atturibute of machine
-        const MachineAttributeType getMachineAttribute() const { return MachineAttribute_; }
-        //! get machine state
-        enumMachineState getMachineState() const { return MachineState_; }
+		//! Get to be Set product information
+		const ProcessInfoType GetToBeSetProdInfo() const { return ProbeCard_.GetProdInfo(); }
+		//! Get probe card
+        const CProbeCard& GetProbeCard() const { return ProbeCard_; }
+		//! Get atturibute of machine
+        const MachineAttributeType GetMachineAttribute() const { return MachineAttribute_; }
+        //! Get machine state
+        enumMachineState GetMachineState() const { return MachineState_; }
 
     protected:
 
 
     private:
 		//! initialize
-        void init();
-		//! destroy
-        void destroy();
+        void Init();
+		//! Destroy
+        void Destroy();
+		//! thread worker
+		void thread();
 
 		bool bStartupMachine_;
 		bool bInstalledProbeCard_;

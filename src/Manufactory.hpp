@@ -6,7 +6,6 @@
 #include "Machine.hpp"
 #include "ProbeCard.hpp"
 #include "Stocker.hpp"
-#include "Station.hpp"
 
 // standard libraries
 #include <vector>
@@ -29,13 +28,13 @@ namespace SIMSEMI {
         virtual ~CManufactory();
 
     protected:
-		
+
 
     private:
 		CStocker StockerInput_;		///< stock input lots
 		CStocker StockerHold_;		///< sotck held lots
 		MachineContainer Machines_;	///< container of machines
-		ProbeCardContainer ProbeCard_;	///< container of probecards
+		ProbeCardContainer ProbeCards_;	///< container of probecards
 
     };
 }

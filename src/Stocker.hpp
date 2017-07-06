@@ -18,19 +18,18 @@ namespace SIMSEMI {
         CStocker();
 		//! destructor
         ~CStocker();
-
+		//!	Get constainer of the lots
+		const LotContainer& GetLots() const { return Lots_; }
 		//! unload a lot
-        const CLot unload(const CLot& lot);
+        const CLot Unload(const CLot& lot);
 		//! load a lot
-        void load(const CLot& lot);
+        void Load(const CLot& lot);
 
     protected:
 
     private:
-        LotContainer Lots_;		///< container of lots
-
+        LotContainer Lots_;	///< container of lots
     };
-
 }
 
 #endif //__STOCKER_HPP__

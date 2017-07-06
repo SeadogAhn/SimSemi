@@ -6,29 +6,29 @@ using namespace SIMSEMI;
 
 SIMSEMI::CMachine::CMachine()
 {
-    init();
+    Init();
 }
 
 SIMSEMI::CMachine::~CMachine()
 {
-    destroy();
+    Destroy();
 }
 
-void SIMSEMI::CMachine::init()
+void SIMSEMI::CMachine::Init()
 {
 	bStartupMachine_ = false;
 	bInstalledProbeCard_ = false;
 }
 
-void SIMSEMI::CMachine::destroy()
+void SIMSEMI::CMachine::Destroy()
 {
 	MachineState_ = eNOT_INIT;
-	MachineAttribute_.clear();
+	MachineAttribute_.Clear();
 	bStartupMachine_ = false;
 	bInstalledProbeCard_ = false;
 }
 
-void SIMSEMI::CMachine::setMachineAttribute( const MachineAttributeType& ma )
+void SIMSEMI::CMachine::SetMachineAttribute( const MachineAttributeType& ma )
 {
 	MachineState_ = eNOT_INIT;
 	MachineAttribute_ = ma;
@@ -36,7 +36,7 @@ void SIMSEMI::CMachine::setMachineAttribute( const MachineAttributeType& ma )
 }
 
 
-void SIMSEMI::CMachine::setProbeCard( const CProbeCard& pc )
+void SIMSEMI::CMachine::SetProbeCard( const CProbeCard& pc )
 {
 	if (bStartupMachine_)
 	{
@@ -45,17 +45,23 @@ void SIMSEMI::CMachine::setProbeCard( const CProbeCard& pc )
 	}
 }
 
-CLot& SIMSEMI::CMachine::operateLot(CLot& lot)
+CLot& SIMSEMI::CMachine::OperateLot(CLot& lot)
 {
 	MachineState_ = eRUN;
-	
+
 
 
 	MachineState_ = eIDLE;
 	return lot;
 }
 
-const double SIMSEMI::CMachine::getSummaryUtilizationMachine()
+void SIMSEMI::CMachine::thread()
+{
+
+}
+
+
+const double SIMSEMI::CMachine::GetSummaryUtilizationMachine()
 {
 	return 0.;
 }

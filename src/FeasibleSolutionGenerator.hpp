@@ -7,84 +7,84 @@
 
 // standard libraries
 #include <vector>
-#include <queue>
+#include <deque>
+#include <utility>
 
 //! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
-    //! generate feasible solutions for multi flexbile job shop
+    //! generate feasible solutions for multi flexbile lot shop
 	class CFeasibleSolutionGenerator
 	{
 	public:
-		typedef std::vector<std::vector< OperationTimeType > > MachineJobOrderType;
-		typedef std::vector<std::queue<int> > JobQueueType;
+		//! first is lot and second is step in pair in queue in vector
+		typedef std::vector<std::deque<OperationType> > OperationQueue;
 		//! default constructor
 		CFeasibleSolutionGenerator();
 		//! destructor
 		~CFeasibleSolutionGenerator();
-		//! set operation
+		//! Set operation
 		/*!
-			\param StepInfo each step of jobs
+			\param StepInfo each step of lots
 			\param nMachineCnt
 		*/
-		void setOperation(const Vec_INT& StepInfo, int nMachineCnt);
-		//! get a random fesible solution
+		void SetOperation(const OperationContainer& Operations, int nLotCnt, int nMachineCnt);
+		//! Get a random fesible solution
 		/*!
 			\return to be generated a solution ran
 		*/
-		const JobContainer getRandomFeasibleSolution();
-		//! get a random fesible solution
+		const OperationContainer GetRandomFeasibleSolution();
+		//! Get a random fesible solution
 		/*!
-			\param n number of Jobs, the generated Jobs independently of each other.
+			\param n number of Operations, the generated Operations independently of each other.
 			\solutions to be generated feasible solutions for comparing new and old
 			\return to be generated a solution ran
 		*/
-		const JobsContainer getRandomFeasibleSolutions(size_t n, const JobsContainer& solutions);
-		//! get neighborhood Jobs
+		const OperationOrderContainer GetRandomFeasibleSolutions(size_t n, const OperationOrderContainer& solutions = OperationOrderContainer());
+		//! Get neighborhood Operations
 		/*!
-			\param Jobs a source jobs
-			\return a neighborhood jobs
+			\param Operations a source lots
+			\return a neighborhood lots
 		*/
-		const JobContainer getNeighborhoodJobs(const JobContainer& Jobs);
-		//! check a JobContainer wheather a feasible solution
+		const OperationContainer GetNeighborhoodOperProc(const OperationContainer& Operations);
+		//! check a OperationContainer wheather a feasible solution
 		/*!
-			\param Jobs
+			\param Operations
 		*/
-		bool checkPolicy(const JobContainer& Jobs);
-		//! evaluate Jobs
+		bool CheckPolicy(const OperationContainer& Operations);
+		//! evaluate Operations
 		/*!
-			\param Jobs
+			\param Operations
 		*/
-		double evaluateJobs(const JobContainer& Jobs);
+		double EvaluateOperProc(const OperationContainer& Operations);
 		//! make table data for drawing gantt chart
 		/*!
 			\param Job order container
 		*/
-		void makeGanttTableData(const JobContainer& Jobs);
+		void MakeGanttTableData(const OperationContainer& Operations, std::string strFileName = "C:\\temp\\GanttData");
 	protected:
 
 	private:
-		//! permutate JobContainer using the next_permutation algorithm of standard library
+		//! Permutate OperationContainer using the next_perMutation algorithm of standard library
 		/*!
-			\param Jobs
+			\param Operations
 		*/
-		void permutate(JobContainer& Jobs);
-		//! initialize machine at each element(OperationType) in Jobs
+		void Permutate(OperationContainer& Operations);
+		//! initialize machine at each element(OperationType) in Operations
 		/*!
 			applied bit shift technique
-			\param Jobs Job container
+			\param Operations Job container
 		*/
-		void initMachine(JobContainer& Jobs);
-		//! generation machine job order
+		void InitMachine(OperationContainer& Operations);
+		//! generation machine lot order
 		/*!
-			\param Jobs
+			\param Operations
 		 */
-		void generateMachineJobOrder( const JobContainer& Jobs );
+		void OrderOperationMachine( const OperationContainer& Operations );
 
-		MachineJobOrderType MachineJobOrders_;
-		JobQueueType JobsQueue_; ///< queue in the conatiner for generating Jobs randomly
-		JobContainer Jobs_;	///< Jobs
-		int nJobCnt_;		///< Job count
-		int nStepCnt_;		///< step count, the step is similar to operation
+		OperationContainer Operations_;	///< source operations
+		OperationOrderContainer OperationsOrder_; ///< container of to order operations to machines
+		OperationQueue OperQueue_; ///< queue in the conatiner for generating Operations randomly
+		int nLotCnt_;		///< Job count
 		int nMachineCnt_;	///< machine count
 	};
 } // namespace SIMSEMI
