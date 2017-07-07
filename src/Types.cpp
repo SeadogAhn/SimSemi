@@ -5,19 +5,19 @@
 void SIMSEMI::ProductAttributeType::Clear()
 {
 	ProcTimes.clear();
-	nPart = nStepCnt = 0;
+	nPart = nStepCnt = -1;
 	dblProdYieldMean = dblProdYieldStdDev = dblPrice = 0.;
 }
 
 void SIMSEMI::MachineAttributeType::Clear()
 {
-	nMachine = 0;
+	nMachine = -1;
 	dblLevel = dblLimitRateOperation = 0.;
 }
 
 void SIMSEMI::MachineLogType::Clear()
 {
-	nPart = nLot = nWaferNo = nStep = nMachine = 0;
+	nPart = nLot = nWaferNo = nStep = nMachine = -1;
 	dblElapsedTime = 0.;
 }
 

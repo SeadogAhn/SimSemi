@@ -5,9 +5,9 @@
 
 using namespace Rcpp;
 
-// TestGeneric
-List TestGeneric(const int& lot, const int& machine, int population, int loop, double crossover, double mutation);
-RcppExport SEXP SimSemi_TestGeneric(SEXP lotSEXP, SEXP machineSEXP, SEXP populationSEXP, SEXP loopSEXP, SEXP crossoverSEXP, SEXP mutationSEXP) {
+// TestGenetic
+List TestGenetic(const int& lot, const int& machine, int population, int loop, double crossover, double mutation);
+RcppExport SEXP SimSemi_TestGenetic(SEXP lotSEXP, SEXP machineSEXP, SEXP populationSEXP, SEXP loopSEXP, SEXP crossoverSEXP, SEXP mutationSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -17,7 +17,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type loop(loopSEXP);
     Rcpp::traits::input_parameter< double >::type crossover(crossoverSEXP);
     Rcpp::traits::input_parameter< double >::type mutation(mutationSEXP);
-    rcpp_result_gen = Rcpp::wrap(TestGeneric(lot, machine, population, loop, crossover, mutation));
+    rcpp_result_gen = Rcpp::wrap(TestGenetic(lot, machine, population, loop, crossover, mutation));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -37,7 +37,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"SimSemi_TestGeneric", (DL_FUNC) &SimSemi_TestGeneric, 6},
+    {"SimSemi_TestGenetic", (DL_FUNC) &SimSemi_TestGenetic, 6},
     {"SimSemi_TestHeuristic", (DL_FUNC) &SimSemi_TestHeuristic, 4},
     {NULL, NULL, 0}
 };

@@ -27,7 +27,7 @@ void SIMSEMI::CProductGenerator::InitProductMasterPlan(const std::string& strFil
 		/*	read header
 			0      1
 			PARTID,QUANTITY
-			1,2000
+			0,2000
 		*/
 		getline(ifs,strTemp);
 

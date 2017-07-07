@@ -33,7 +33,7 @@ void SIMSEMI::CFeasibleSolutionGenerator::SetOperation(const OperationContainer&
 		nMachineCnt_ = nMachineCnt;
 		OperQueue_.resize(nLotCnt_);
 		for (size_t i = 0 ; i < Operations_.size(); i++ ) {
-			OperQueue_[Operations_[i].nLot-1].push_back(Operations_[i]);
+			OperQueue_[Operations_[i].nLot].push_back(Operations_[i]);
 		}
 	}
 	catch (std::exception& error) {
@@ -145,14 +145,14 @@ void SIMSEMI::CFeasibleSolutionGenerator::OrderOperationMachine( const Operation
 			OperationType ot;
 			ot = Operations[nPosJob];
 			// if first step
-			if ( Operations[nPosJob].nStep == 1 ) {
+			if ( Operations[nPosJob].nStep == 0 ) {
 				// if there is no another lot in a Machine
-				if ( OperationsOrder_[Operations[nPosJob].nMachine-1].empty() ) {
+				if ( OperationsOrder_[Operations[nPosJob].nMachine].empty() ) {
 					ot.dblStartTime = 0.;
 					ot.dblEndTime = Operations[nPosJob].dblProcTime;
 				}
 				else {
-					ot.dblStartTime = OperationsOrder_[Operations[nPosJob].nMachine-1].back().dblEndTime + nWaitTimeForChangingProduct;
+					ot.dblStartTime = OperationsOrder_[Operations[nPosJob].nMachine].back().dblEndTime + nWaitTimeForChangingProduct;
 					ot.dblEndTime = ot.dblStartTime + Operations[nPosJob].dblProcTime;
 				}
 			}
@@ -169,22 +169,22 @@ void SIMSEMI::CFeasibleSolutionGenerator::OrderOperationMachine( const Operation
 					}
 				}
 				// if there is no another lot in a Machine
-				if ( OperationsOrder_[Operations[nPosJob].nMachine-1].empty() ) {
+				if ( OperationsOrder_[Operations[nPosJob].nMachine].empty() ) {
 					ot.dblStartTime = preStepEndTime;
 					ot.dblEndTime = ot.dblStartTime + Operations[nPosJob].dblProcTime;
 				}
 				else {
-					if ( preStepEndTime > OperationsOrder_[Operations[nPosJob].nMachine-1].back().dblEndTime ) {
+					if ( preStepEndTime > OperationsOrder_[Operations[nPosJob].nMachine].back().dblEndTime ) {
 						ot.dblStartTime = preStepEndTime;
 						ot.dblEndTime = ot.dblStartTime + Operations[nPosJob].dblProcTime;
 					}
 					else {
-						ot.dblStartTime = OperationsOrder_[Operations[nPosJob].nMachine-1].back().dblEndTime + nWaitTimeForChangingProduct;
+						ot.dblStartTime = OperationsOrder_[Operations[nPosJob].nMachine].back().dblEndTime + nWaitTimeForChangingProduct;
 						ot.dblEndTime = ot.dblStartTime + Operations[nPosJob].dblProcTime;
 					}
 				}
 			}
-			OperationsOrder_[Operations[nPosJob].nMachine-1].push_back(ot);
+			OperationsOrder_[Operations[nPosJob].nMachine].push_back(ot);
 		}
 	}
 	catch (std::exception& error) {
@@ -279,7 +279,7 @@ void SIMSEMI::CFeasibleSolutionGenerator::InitMachine(OperationContainer& Operat
 			return;
 
 		for (size_t i = 0 ; i < Operations.size() ; i++) {
-			Operations[i].nMachine =  static_cast<int>(R::runif(1,(nMachineCnt_+1)));
+			Operations[i].nMachine =  static_cast<int>(R::runif(0,(nMachineCnt_)));
 		}
 	}
 	catch (std::exception& error) {

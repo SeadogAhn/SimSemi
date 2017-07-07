@@ -69,20 +69,20 @@ namespace SIMSEMI {
 	*/
 	struct OperationType {
 		//! constructor
-		OperationType(int lot = 0, int step = 0, int machine = 0, double proctime = 0., double starttime = 0., double endtime = 0)
+		OperationType(int lot = -1, int step = -1, int machine = -1, double proctime = 0., double starttime = 0., double endtime = 0)
 			: nLot(lot), nStep(step), nMachine(machine), dblProcTime(proctime), dblStartTime(starttime), dblEndTime(endtime) {}
 		//! destructor
 		~OperationType() {}
 		//! init
 		virtual void Init()
 		{
-			nLot = nStep = nMachine = 0;
+			nLot = nStep = nMachine = -1;
 			dblStartTime = dblEndTime = 0.;
 		}
 		//! is empty
 		bool Empty() const
 		{
-			if (nLot == 0 || nStep == 0) {
+			if (nLot == -1 || nStep == -1) {
 				return true;
 			}
 			else {

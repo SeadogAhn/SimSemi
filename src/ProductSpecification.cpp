@@ -23,7 +23,7 @@ void SIMSEMI::CProductSpecification::InitProductSpecification(const std::string&
 		/*	read header
 			0      1       2     3     4     5        6          7
 			PARTID,STEPCNT,STEP1,STEP2,STEP3,YLD_MEAN,YLD_STDDEV,PRICE
-			1,3,25,25,25,75,5,100
+			0,3,25,25,25,75,5,100
 		*/
 		getline(ifs,strTemp);
 
