@@ -1,4 +1,9 @@
 #include "ProductGenerator.hpp"
+#include "Utility.hpp"
+
+#include <fstream>
+#include <string>
+#include <stdexcept>
 
 #include <Rcpp.h>
 
@@ -11,70 +16,63 @@ SIMSEMI::CProductGenerator::CProductGenerator()
 
 SIMSEMI::CProductGenerator::~CProductGenerator()
 {
-	Products_.clear();
 }
 
-SIMSEMI::CProductGenerator::CProductGenerator( int n )
+void SIMSEMI::CProductGenerator::InitProductMasterPlan(const std::string& strFileName)
 {
-	setSizeOfProducts( n );
-}
+	try {
+		enum enumLabelPos{ ePARTID, QUANTITY, eLABELSIZE };
+		ifstream ifs(strFileName.c_str());
+		string strTemp;
+		/*	read header
+			0      1
+			PARTID,QUANTITY
+			0,2000
+		*/
+		getline(ifs,strTemp);
 
-void SIMSEMI::CProductGenerator::setSizeOfProducts( int n )
-{
-	Products_.clear();
-	for ( int i = 0 ; i < n ; i++ )
-	{
-		Products_.push_back( makeProductAttribute(i) );
+		Vec_STR vecTemp;
+		int nPart = 0, nQuantity = 0;
+
+		// read master plan and make products
+		while (getline(ifs,strTemp)) {
+			if (ifs.eof() || strTemp.empty()) break;
+			fnStringSpliter(vecTemp, strTemp);
+			if (vecTemp.size() < eLABELSIZE) throw domain_error(strFileName+" is wrong foramt.");
+
+			nPart = atoi(vecTemp[ePARTID].c_str());
+			nQuantity = atoi(vecTemp[QUANTITY].c_str());
+
+			Products_.insert(make_pair(nPart, MakeLots(nQuantity)));
+		}
+
+		ifs.close();
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
 	}
 }
 
-const SIMSEMI::ProductAttributeType SIMSEMI::CProductGenerator::makeProductAttribute( int i )
+SIMSEMI::CProductGenerator::LotContainer SIMSEMI::CProductGenerator::MakeLots(int nQuantity)
 {
-	ProductAttributeType pa;
+	static int nLot = 1;
+	LotContainer Lots;
+	int nWaferCnt = 0;
 
-	char buffer[20] = { 0, };
-	sprintf(buffer, "PART%03d", i);
-	pa.strPartID = buffer;
-	pa.nSteps = genStepSize();
-
-	pa.TestTimes = genTestTime( pa.nSteps );
-
-	pa.dblProdYieldMean = 0.;
-	pa.dblProdYieldStdDev = 0.;
-	pa.dblPrice = 0;
-
-	return pa;
-}
-
-int SIMSEMI::CProductGenerator::genStepSize()
-{
-	double r = R::runif(0,1);
-
-	/*
-		STEP 1 : 20%, STEP 2 : 75%, STEP 3 : 5%
-		hence if r is 1 smaller than 0.2
-		and if r is 3 greater than 0.95
-		otherwise 2
-	*/
-
-	if ( r < SIMSEMI_D_STEP_1_RATE ) {
-		return 1;
+	try {
+		while (nQuantity > 0) {
+			nWaferCnt = 25; // need to generate random number;
+			CLot Lot(nLot, nWaferCnt);
+			Lots.push_back(Lot);
+			nQuantity -= nWaferCnt;
+			nLot++;
+		}
 	}
-	else if ( r > SIMSEMI_D_STEP_1_RATE + SIMSEMI_D_STEP_2_RATE ) {
-		return 3;
-	}
-	else {
-		return 2;
-	}
-}
-
-const SIMSEMI::ProductAttributeType::TestTimeContainer SIMSEMI::CProductGenerator::genTestTime( int n )
-{
-	ProductAttributeType::TestTimeContainer ts(n);
-
-	for (int i = 0 ; i < n ; i++ ) {
-		ts[i] = R::runif(SIMSEMI_D_TEST_TIME_MIN, SIMSEMI_D_TEST_TIME_MAX);
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
 	}
 
-	return ts;
+	return Lots;
 }

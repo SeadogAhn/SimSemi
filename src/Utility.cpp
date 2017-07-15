@@ -30,7 +30,7 @@ SIMSEMI::CMutexAttribute::~CMutexAttribute ()
 //-----------------------------------------------------------------------------
 SIMSEMI::CElapsedTime::CElapsedTime () : starting_ (0)
 {
-	reset ();
+	reSet ();
 }
 
 
@@ -41,7 +41,7 @@ double SIMSEMI::CElapsedTime::sec () const
 }
 
 
-void SIMSEMI::CElapsedTime::reset ()
+void SIMSEMI::CElapsedTime::reSet ()
 {
 	starting_ = clock ();
 }
@@ -50,7 +50,7 @@ void SIMSEMI::CElapsedTime::reset ()
 //-----------------------------------------------------------------------------
 SIMSEMI::CHiResElapsedTime::CHiResElapsedTime () : starting_ (0)
 {
-	reset ();
+	reSet ();
 }
 
 double SIMSEMI::CHiResElapsedTime::usec () const
@@ -73,7 +73,7 @@ double SIMSEMI::CHiResElapsedTime::sec () const
 	return (now - starting_);
 }
 
-void SIMSEMI::CHiResElapsedTime::reset ()
+void SIMSEMI::CHiResElapsedTime::reSet ()
 {
 	struct timeval t;
 	gettimeofday (&t, 0);
@@ -88,25 +88,23 @@ std::ostream& SIMSEMI::operator<<(std::ostream& os, const OperationType& op)
 	os << op.ToString();
 	return os;
 }
-//! operator<< overloading for printing JobContainer to out stream directly
-std::ostream& SIMSEMI::operator<<(std::ostream& os, const JobContainer& Jobs)
+//! operator<< overloading for printing OperationContainer to out stream directly
+std::ostream& SIMSEMI::operator<<(std::ostream& os, const OperationContainer& Operations)
 {
-	for (size_t j = 0; j < Jobs.size() - 1; j++) {
-		os << Jobs[j].ToString() << ' ';
+	for (size_t j = 0; j < Operations.size() - 1; j++) {
+		os << Operations[j].ToString() << ' ';
 	}
-	os << Jobs[Jobs.size() - 1];
+	os << Operations[Operations.size() - 1];
 
 	return os;
 }
 
-bool SIMSEMI::operator==(const JobContainer& j1, const JobContainer& j2)
+bool SIMSEMI::operator==(const OperationContainer& j1, const OperationContainer& j2)
 {
 	if (j1.size() != j2.size()) {
 		return false;
 	}
-	for (JobContainer::const_iterator ci1 = j1.begin(), ci2 = j2.begin()
-		; ci1 != j1.end()
-		; ++ci1, ++ci2 ) {
+	for (OperationContainer::const_iterator ci1 = j1.begin(), ci2 = j2.begin() ; ci1 != j1.end() ; ++ci1, ++ci2 ) {
 		if (*ci1 != *ci2) {
 			return false;
 		}
@@ -114,7 +112,7 @@ bool SIMSEMI::operator==(const JobContainer& j1, const JobContainer& j2)
 	return true;
 }
 
-bool SIMSEMI::operator!=(const JobContainer& j1, const JobContainer& j2)
+bool SIMSEMI::operator!=(const OperationContainer& j1, const OperationContainer& j2)
 {
 	return !(j1==j2);
 }

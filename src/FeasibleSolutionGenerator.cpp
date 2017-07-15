@@ -14,8 +14,7 @@ using namespace SIMSEMI;
 
 SIMSEMI::CFeasibleSolutionGenerator::CFeasibleSolutionGenerator()
 {
-	nJobCnt_ = 0;
-	nStepCnt_ = 0;
+	nLotCnt_ = 0;
 	nMachineCnt_ = 0;
 }
 
@@ -23,191 +22,297 @@ SIMSEMI::CFeasibleSolutionGenerator::~CFeasibleSolutionGenerator()
 {
 }
 
-void SIMSEMI::CFeasibleSolutionGenerator::setOperation(const std::vector<int>& StepInfo, int nMachineCnt)
+void SIMSEMI::CFeasibleSolutionGenerator::SetOperation(const OperationContainer& Operations, int nLotCnt, int nMachineCnt)
 {
-	nJobCnt_ = StepInfo.size();
-	nMachineCnt_ = nMachineCnt;
-	JobsQueue_.resize(nJobCnt_);
-
-	// sum steps of all jobs
-	for (int i = 0 ; i < nJobCnt_ ; nStepCnt_+=StepInfo[i], i++);
-
-	for (int j = 0; j < nJobCnt_; j++) {
-		for (int s = 0; s < StepInfo[j]; s++) {
-			Jobs_.push_back(OperationType(j, s));
-			JobsQueue_[j].push(s);
+	try {
+		if (Operations.empty()) {
+			return;
+		}
+		Operations_ = Operations;
+		nLotCnt_ = nLotCnt;
+		nMachineCnt_ = nMachineCnt;
+		OperQueue_.resize(nLotCnt_);
+		for (size_t i = 0 ; i < Operations_.size(); i++ ) {
+			OperQueue_[Operations_[i].nLot].push_back(Operations_[i]);
 		}
 	}
-
-	cout << "JOBS:" << Jobs_ << endl;
-}
-
-const JobContainer SIMSEMI::CFeasibleSolutionGenerator::getRandomFeasibleSolution()
-{
-	JobContainer Jobs;
-	JobQueueType JobsQueue(JobsQueue_);
-
-	while (1) {
-		if (Jobs.size() == Jobs_.size()) {
-			break;
-		}
-		int r = static_cast<int>(R::runif(0,JobsQueue.size()));
-		if (JobsQueue[r].empty()) {
-			continue;
-		}
-		else {
-			Jobs.push_back(OperationType(r, JobsQueue[r].front()));
-			JobsQueue[r].pop();
-		}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
 	}
-	initMachine(Jobs);
-	return Jobs;
-}
-
-const JobsContainer SIMSEMI::CFeasibleSolutionGenerator::getRandomFeasibleSolutions(size_t n, const JobsContainer& solutions)
-{
-	JobsContainer tempContainer;
-	while (tempContainer.size() < n) {
-		JobContainer tempJobs = getRandomFeasibleSolution();
-		if (!solutions.empty() && find(solutions.begin(), solutions.end(), tempJobs) != solutions.end()) {
-			continue;
-		}
-		if (find(tempContainer.begin(), tempContainer.end(), tempJobs) != tempContainer.end()) {
-			continue;
-		}
-		tempContainer.push_back(tempJobs);
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
 	}
-	return tempContainer;
 }
 
-const JobContainer SIMSEMI::CFeasibleSolutionGenerator::getNeighborhoodJobs(const JobContainer& Jobs)
+const OperationContainer SIMSEMI::CFeasibleSolutionGenerator::GetRandomFeasibleSolution()
 {
-	JobContainer tempJobs = Jobs;
-	permutate(tempJobs);
-	return tempJobs;
-}
+	OperationContainer Operations;
 
-void SIMSEMI::CFeasibleSolutionGenerator::generateMachineJobOrder( const JobContainer& Jobs )
-{
-	MachineJobOrderType().swap(MachineJobOrders_);
-	MachineJobOrders_.resize(nMachineCnt_);
+	try {
+		OperationQueue OperQueue(OperQueue_);
 
-	// wait time when product is changed
-	const int nWaitTimeForChangingProduct = 5;
-	// operation loop
-	for ( size_t nPosJob = 0 ; nPosJob < Jobs.size() ; nPosJob++ ) {
-		OperationTimeType ot;
-		ot.Operation = Jobs[nPosJob];
-		// if first step
-		if ( Jobs[nPosJob].step == 0 ) {
-			// if there is no another job in a Machine
-			if ( MachineJobOrders_[Jobs[nPosJob].machine].empty() ) {
-				ot.dblStartTime = 0.;
-				ot.dblEndTime = Jobs[nPosJob].prctime;
+		while (1) {
+			if (Operations.size() == Operations_.size()) {
+				break;
 			}
+			int r = static_cast<int>(R::runif(0,OperQueue.size()));
+
+			Operations.push_back(OperQueue[r].front());
+			OperQueue[r].pop_front();
+
+			if (OperQueue[r].empty()) {
+				OperationQueue::iterator itor = OperQueue.begin()+r;
+				OperQueue.erase(itor);
+			}
+		}
+		InitMachine(Operations);
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
+	}
+
+	return Operations;
+}
+
+const OperationOrderContainer SIMSEMI::CFeasibleSolutionGenerator::GetRandomFeasibleSolutions(size_t n, const OperationOrderContainer& Solutions)
+{
+	OperationOrderContainer tempOrderContainer;
+
+	try {
+		while (tempOrderContainer.size() <= n) {
+			OperationContainer tempOperations = GetRandomFeasibleSolution();
+			/*	it doesn't compare with the Solution and tempOperations
+				some solutions are duplicated if small solution space.
+
+			if (!Solutions.empty() && find(Solutions.begin(), Solutions.end(), tempOperations) != Solutions.end()) {
+				continue;
+			}
+			if (find(tempOrderContainer.begin(), tempOrderContainer.end(), tempOperations) != tempOrderContainer.end()) {
+				continue;
+			}
+			*/
+			tempOrderContainer.push_back(tempOperations);
+		}
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
+	}
+
+	return tempOrderContainer;
+}
+
+const OperationContainer SIMSEMI::CFeasibleSolutionGenerator::GetNeighborhoodOperProc(const OperationContainer& Operations)
+{
+	OperationContainer tempOperations = Operations;
+
+	try {
+		Permutate(tempOperations);
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
+	}
+
+	return tempOperations;
+}
+
+void SIMSEMI::CFeasibleSolutionGenerator::OrderOperationMachine( const OperationContainer& Operations )
+{
+	try {
+		OperationOrderContainer().swap(OperationsOrder_);
+		OperationsOrder_.resize(nMachineCnt_);
+
+		// wait time when product is changed
+		const int nWaitTimeForChangingProduct = 5;
+		// operation loop
+		for ( size_t nPosJob = 0 ; nPosJob < Operations.size() ; nPosJob++ ) {
+			OperationType ot;
+			ot = Operations[nPosJob];
+			// if first step
+			if ( Operations[nPosJob].nStep == 0 ) {
+				// if there is no another lot in a Machine
+				if ( OperationsOrder_[Operations[nPosJob].nMachine].empty() ) {
+					ot.dblStartTime = 0.;
+					ot.dblEndTime = Operations[nPosJob].dblProcTime;
+				}
+				else {
+					ot.dblStartTime = OperationsOrder_[Operations[nPosJob].nMachine].back().dblEndTime + nWaitTimeForChangingProduct;
+					ot.dblEndTime = ot.dblStartTime + Operations[nPosJob].dblProcTime;
+				}
+			}
+			// operation is not first step
 			else {
-				ot.dblStartTime = MachineJobOrders_[Jobs[nPosJob].machine].back().dblEndTime + nWaitTimeForChangingProduct;
-				ot.dblEndTime = ot.dblStartTime + Jobs[nPosJob].prctime;
-			}
-		}
-		// operation is not first step
-		else {
-			// find the same job's end time of the pre step
-			double preStepEndTime = 0.;
-			for ( size_t nPosMachine = 0 ; nPosMachine < MachineJobOrders_.size() ; nPosMachine++ ) {
-				for ( size_t nPosJobOrder = 0 ; nPosJobOrder < MachineJobOrders_[nPosMachine].size() ; nPosJobOrder++ ) {
-					if ( Jobs[nPosJob].job == MachineJobOrders_[nPosMachine][nPosJobOrder].Operation.job
-              			&& Jobs[nPosJob].step - 1 == MachineJobOrders_[nPosMachine][nPosJobOrder].Operation.step ) {
-						preStepEndTime = MachineJobOrders_[nPosMachine][nPosJobOrder].dblEndTime + nWaitTimeForChangingProduct;
+				// find the same lot's end time of the pre step
+				double preStepEndTime = 0.;
+				for ( size_t nPosMachine = 0 ; nPosMachine < OperationsOrder_.size() ; nPosMachine++ ) {
+					for ( size_t nPosJobOrder = 0 ; nPosJobOrder < OperationsOrder_[nPosMachine].size() ; nPosJobOrder++ ) {
+						if ( Operations[nPosJob].nLot == OperationsOrder_[nPosMachine][nPosJobOrder].nLot
+							&& Operations[nPosJob].nStep - 1 == OperationsOrder_[nPosMachine][nPosJobOrder].nStep ) {
+							preStepEndTime = OperationsOrder_[nPosMachine][nPosJobOrder].dblEndTime + nWaitTimeForChangingProduct;
+						}
+					}
+				}
+				// if there is no another lot in a Machine
+				if ( OperationsOrder_[Operations[nPosJob].nMachine].empty() ) {
+					ot.dblStartTime = preStepEndTime;
+					ot.dblEndTime = ot.dblStartTime + Operations[nPosJob].dblProcTime;
+				}
+				else {
+					if ( preStepEndTime > OperationsOrder_[Operations[nPosJob].nMachine].back().dblEndTime ) {
+						ot.dblStartTime = preStepEndTime;
+						ot.dblEndTime = ot.dblStartTime + Operations[nPosJob].dblProcTime;
+					}
+					else {
+						ot.dblStartTime = OperationsOrder_[Operations[nPosJob].nMachine].back().dblEndTime + nWaitTimeForChangingProduct;
+						ot.dblEndTime = ot.dblStartTime + Operations[nPosJob].dblProcTime;
 					}
 				}
 			}
-			// if there is no another job in a Machine
-			if ( MachineJobOrders_[Jobs[nPosJob].machine].empty() ) {
-				ot.dblStartTime = preStepEndTime;
-				ot.dblEndTime = ot.dblStartTime + Jobs[nPosJob].prctime;
-			}
-			else {
-				if ( preStepEndTime > MachineJobOrders_[Jobs[nPosJob].machine].back().dblEndTime ) {
-					ot.dblStartTime = preStepEndTime;
-					ot.dblEndTime = ot.dblStartTime + Jobs[nPosJob].prctime;
-				}
-				else {
-					ot.dblStartTime = MachineJobOrders_[Jobs[nPosJob].machine].back().dblEndTime + nWaitTimeForChangingProduct;
-					ot.dblEndTime = ot.dblStartTime + Jobs[nPosJob].prctime;
-				}
-			}
+			OperationsOrder_[Operations[nPosJob].nMachine].push_back(ot);
 		}
-		MachineJobOrders_[Jobs[nPosJob].machine].push_back(ot);
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
 	}
 }
 
-double SIMSEMI::CFeasibleSolutionGenerator::evaluateJobs(const JobContainer& Jobs)
+double SIMSEMI::CFeasibleSolutionGenerator::EvaluateOperProc(const OperationContainer& Operations)
 {
 	double val = 0.;
 
-	generateMachineJobOrder( Jobs );
+	try {
+		OrderOperationMachine(Operations);
 
-	for ( size_t nPosMachine = 0 ; nPosMachine < MachineJobOrders_.size() ; nPosMachine++ ) {
-		for ( size_t nPosJobOrder = 0 ; nPosJobOrder < MachineJobOrders_[nPosMachine].size() ; nPosJobOrder++ ) {
-			val = max(MachineJobOrders_[nPosMachine][nPosJobOrder].dblEndTime, val);
+		for ( size_t nPosMachine = 0 ; nPosMachine < OperationsOrder_.size() ; nPosMachine++ ) {
+			for ( size_t nPosJobOrder = 0 ; nPosJobOrder < OperationsOrder_[nPosMachine].size() ; nPosJobOrder++ ) {
+				val = max(OperationsOrder_[nPosMachine][nPosJobOrder].dblEndTime, val);
+			}
 		}
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
 	}
 
 	return val;
 }
 
-void SIMSEMI::CFeasibleSolutionGenerator::makeGanttTableData(const JobContainer& Jobs)
+void SIMSEMI::CFeasibleSolutionGenerator::MakeGanttTableData(const OperationContainer& Operations, std::string strFileName)
 {
-	static int nIdx = 0;
-	ostringstream oss;
-	oss << "D:\\temp\\GanData" << nIdx++ << ".txt";
-	ofstream ofs(oss.str().c_str());
+	try {
+		static int nIdx = 0;
+		ostringstream oss;
+		oss << strFileName << nIdx++ << ".txt";
+		ofstream ofs(oss.str().c_str());
 
-	generateMachineJobOrder( Jobs );
+		OrderOperationMachine( Operations );
 
-	ofs << "group|content|start|end" << endl;
-	for ( size_t nPosMachine = 0 ; nPosMachine < MachineJobOrders_.size() ; nPosMachine++ ) {
-		for ( size_t nPosJobOrder = 0 ; nPosJobOrder < MachineJobOrders_[nPosMachine].size() ; nPosJobOrder++ ) {
-			ofs << nPosMachine
-       			<< '|' << "O(" << MachineJobOrders_[nPosMachine][nPosJobOrder].Operation.job << ',' << MachineJobOrders_[nPosMachine][nPosJobOrder].Operation.step << ')'
-       			<< '|' << MachineJobOrders_[nPosMachine][nPosJobOrder].dblStartTime
-       			<< '|' << MachineJobOrders_[nPosMachine][nPosJobOrder].dblEndTime
-          		<< endl;
-		}
-	}
-	ofs.close();
-}
-
-void SIMSEMI::CFeasibleSolutionGenerator::permutate(JobContainer& Jobs)
-{
-	while (1) {
-		next_permutation(Jobs.begin(), Jobs.end());
-		if (checkPolicy(Jobs)) break;
-	}
-}
-
-void SIMSEMI::CFeasibleSolutionGenerator::initMachine(JobContainer& Jobs)
-{
-	if (Jobs.empty())
-		return;
-
-	for (size_t i = 0 ; i < Jobs.size() ; i++) {
-		Jobs[i].machine =  static_cast<int>(R::runif(0,nMachineCnt_));
-	}
-}
-
-bool SIMSEMI::CFeasibleSolutionGenerator::checkPolicy(const JobContainer& Jobs)
-{
-	if (Jobs.empty() || Jobs.size() < 2) return true;
-
-	for (size_t p1 = 0; p1 < Jobs.size() - 1; p1++) {
-		for (size_t p2 = p1 + 1; p2 < Jobs.size(); p2++) {
-			// p1, p2 job and machine are same but p1 step is greater than p2
-			if ((Jobs[p1].job == Jobs[p2].job) && Jobs[p1].step > Jobs[p2].step && Jobs[p1].machine == Jobs[p2].machine) {
-				return false;
+		ofs << "group|content|start|end" << endl;
+		for (size_t nPosMachine = 0 ; nPosMachine < OperationsOrder_.size() ; nPosMachine++) {
+			for (size_t nPosJobOrder = 0 ; nPosJobOrder < OperationsOrder_[nPosMachine].size() ; nPosJobOrder++) {
+				ofs << nPosMachine
+					<< '|' << "O(" << OperationsOrder_[nPosMachine][nPosJobOrder].nLot << ',' << OperationsOrder_[nPosMachine][nPosJobOrder].nStep << ')'
+					<< '|' << OperationsOrder_[nPosMachine][nPosJobOrder].dblStartTime
+					<< '|' << OperationsOrder_[nPosMachine][nPosJobOrder].dblEndTime
+					<< endl;
 			}
 		}
+		ofs.close();
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
+	}
+}
+
+void SIMSEMI::CFeasibleSolutionGenerator::Permutate(OperationContainer& Operations)
+{
+	try {
+		while (1) {
+			next_permutation(Operations.begin(), Operations.end());
+			if (CheckPolicy(Operations)) break;
+		}
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
+	}
+}
+
+void SIMSEMI::CFeasibleSolutionGenerator::InitMachine(OperationContainer& Operations)
+{
+	try {
+		if (Operations.empty())
+			return;
+
+		for (size_t i = 0 ; i < Operations.size() ; i++) {
+			Operations[i].nMachine =  static_cast<int>(R::runif(0,(nMachineCnt_)));
+		}
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
+	}
+}
+
+bool SIMSEMI::CFeasibleSolutionGenerator::CheckPolicy(const OperationContainer& Operations)
+{
+	try {
+		if (Operations.size() < 2) return true;
+
+		for (size_t p1 = 0; p1 < Operations.size() - 1; p1++) {
+			for (size_t p2 = p1 + 1; p2 < Operations.size(); p2++) {
+				// p1, p2 lot and machine are same but p1 step is greater than p2
+				if ((Operations[p1].nLot == Operations[p2].nLot) && Operations[p1].nStep > Operations[p2].nStep && Operations[p1].nMachine == Operations[p2].nMachine) {
+					return false;
+				}
+			}
+		}
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
 	}
 	return true;
 }

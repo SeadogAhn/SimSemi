@@ -16,62 +16,55 @@ namespace SIMSEMI {
 		/*!
 			\param population Population size
 		 	\param loop the number of the looping
-		 	\param crossover Crossover Rate
-		 	\param mutation Mutation Rate
+		 	\param Crossover Crossover Rate
+		 	\param Mutation Mutation Rate
 		 */
-		CGeneticAlgorithm(int population = 5000, int loop = 500, double crossover = 1., double mutation = 0.2);
+		CGeneticAlgorithm(int population = 5000, int loop = 500, double Crossover = 1., double Mutation = 0.2);
 		//! destructor
 		~CGeneticAlgorithm();
 		//! execute to generate a optimal solution
 		/*!
-			\param StepInfo each step of jobs
+			\param Operations operations
 			\param nMachineCnt number of machines
 		*/
-		void execOptimalSolutionGeneration(const Vec_INT& StepInfo, int nMachineCnt);
-		//! get to be generated a Job container of a global best solution
-		const JobContainer& getOptimalSolution() const { return GlobalBestSolution_; }
-		//! get evaluated values
-		const Vec_DBL& getEvaluatedVals() const { return EvaluatedVals_; }
+		void ExecOptimalSolutionGeneration(const OperationContainer& Operations, int nLotCnt, int nMachineCnt);
+		//! Get to be generated a Job container of a global best solution
+		const OperationContainer& GetOptimalSolution() const { return GlobalBestSolution_; }
+		//! Get evaluated values
+		const Vec_DBL& GetEvaluatedVals() const { return EvaluatedVals_; }
 	protected:
 
 	private:
 		//! initialize all memebers
-		void init(int population, int loop, double crossover, double mutation);
-		//! set population size
-		/*!
-			\param n size of population
-		*/
-		void setPopulation();
-		//! selection
-		void selection();
-		//! crossover
-		void crossover();
-		//! mutation
-		void mutation();
-		//! decoding
-		void decode();
-		//! encoding
-		void encode();
-		//! statistics summary
-		void statistics();
+		void Init(int population, int loop, double Crossover, double Mutation);
+		//! Set population size
+		void SetPopulation();
+		//! Get a best solution in lotscontainer
+		const OperationContainer GetBestSolutionInPopulation(const OperationOrderContainer& population);
+		//! Selection
+		void Selection();
+		//! Crossover
+		void Crossover();
+		//! Mutation
+		void Mutation();
 
-		//! population is generated job containers randomly
-		JobsContainer Population_;
+		//! population is generated lot containers randomly
+		OperationOrderContainer Population_;
 		//! global best solution
-		JobContainer GlobalBestSolution_;
+		OperationContainer GlobalBestSolution_;
 		// parents
-		JobContainer Parent1_;
-		JobContainer Parent2_;
+		OperationContainer Parent1_;
+		OperationContainer Parent2_;
 		// child
-		JobContainer Offspring_;
+		OperationContainer Offspring_;
 
 		//! population size
 		int nPopulationSize_;
 		//! generation loop limit
 		int nGenerationLoopLimit_;
-		//! crossover rate
+		//! Crossover rate
 		double dblCrossoverRate_;
-		//! mutation rate
+		//! Mutation rate
 		double dblMutationRate_;
 		//! evaluated values of the generated feasible solutions
 		Vec_DBL EvaluatedVals_;

@@ -12,7 +12,7 @@ SIMSEMI::CStocker::~CStocker()
 {
 }
 
-const SIMSEMI::CLot SIMSEMI::CStocker::unload(const CLot& lot)
+const SIMSEMI::CLot SIMSEMI::CStocker::Unload(const CLot& lot)
 {
 	LotContainer::iterator itor = find(Lots_.begin(), Lots_.end(), lot);
 
@@ -29,7 +29,7 @@ const SIMSEMI::CLot SIMSEMI::CStocker::unload(const CLot& lot)
 	}
 }
 
-void SIMSEMI::CStocker::load(const CLot& lot)
+void SIMSEMI::CStocker::Load(const CLot& lot)
 {
 	Lots_.push_back(lot);
 }

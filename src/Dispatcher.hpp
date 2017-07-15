@@ -19,8 +19,8 @@ namespace SIMSEMI {
         //! destructor
         ~CDispatcher();
 
-		int moveLotFromStockerToMachine( CLot& l, CStocker& s, CMachine& m );
-		int moveLotFromMachineToStocker( CLot& l, CMachine& m, CStocker& s );
+		int MoveLotFromStockerToMachine( CLot& l, CStocker& s, CMachine& m );
+		int MoveLotFromMachineToStocker( CLot& l, CMachine& m, CStocker& s );
 
 
     protected:

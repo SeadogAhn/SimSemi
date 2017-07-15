@@ -6,123 +6,179 @@ using namespace std;
 using namespace Rcpp;
 using namespace SIMSEMI;
 
-SIMSEMI::CGeneticAlgorithm::CGeneticAlgorithm(int population, int loop, double crossover, double mutation)
+
+SIMSEMI::CGeneticAlgorithm::CGeneticAlgorithm(int population, int loop, double Crossover, double Mutation)
 {
-	init(population, loop, crossover, mutation);
+	Init(population, loop, Crossover, Mutation);
 }
 
 SIMSEMI::CGeneticAlgorithm::~CGeneticAlgorithm()
 {
 }
 
-void SIMSEMI::CGeneticAlgorithm::init(int population, int loop, double crossover, double mutation)
+void SIMSEMI::CGeneticAlgorithm::Init(int population, int loop, double Crossover, double Mutation)
 {
-	JobsContainer().swap(Population_);
-	JobContainer().swap(GlobalBestSolution_);
+	OperationOrderContainer().swap(Population_);
+	OperationContainer().swap(GlobalBestSolution_);
 	// default values
 	nPopulationSize_ = population;
 	nGenerationLoopLimit_ = loop;
-	dblCrossoverRate_ = crossover;
-	dblMutationRate_ = mutation;
+	dblCrossoverRate_ = Crossover;
+	dblMutationRate_ = Mutation;
 }
 
-void SIMSEMI::CGeneticAlgorithm::execOptimalSolutionGeneration(const std::vector<int>& StepInfo, int nMachineCnt)
+void SIMSEMI::CGeneticAlgorithm::ExecOptimalSolutionGeneration(const OperationContainer& Operations, int nLotCnt, int nMachineCnt)
 {
+	try {
+		FeasibleSolutionGenerator_.SetOperation(Operations, nLotCnt, nMachineCnt);
+		// first time to initialize the poputlation and the global best solution.
+		SetPopulation();
+		GlobalBestSolution_ = GetBestSolutionInPopulation(Population_);
+		double gbs = FeasibleSolutionGenerator_.EvaluateOperProc(GlobalBestSolution_);
+		double lbs = numeric_limits<double>::max();
 
-	FeasibleSolutionGenerator_.setOperation(StepInfo, nMachineCnt);
-	//setPopulation();
-	double gbs = numeric_limits<double>::max();
-	double ofs = numeric_limits<double>::max();
-	for (int i = 0 ; i < nGenerationLoopLimit_ ; i++) {
-		selection();
-		crossover();
-		mutation();
-		ofs = FeasibleSolutionGenerator_.evaluateJobs(Offspring_);
-		//minimize makespan
-		if (gbs > ofs) {
-			gbs = ofs;
-			GlobalBestSolution_ = Offspring_;
-			//EvaluatedVals_.push_back(ofs);
-			cout << "Global Best Solution's evaluated value:" << ofs << endl;
-			cout << GlobalBestSolution_ << endl;
-		}
-		EvaluatedVals_.push_back(gbs);
-	}
-
-	FeasibleSolutionGenerator_.makeGanttTableData(GlobalBestSolution_);
-}
-
-void SIMSEMI::CGeneticAlgorithm::setPopulation()
-{
-	Population_ = FeasibleSolutionGenerator_.getRandomFeasibleSolutions(nPopulationSize_, Population_);
-}
-
-void SIMSEMI::CGeneticAlgorithm::selection()
-{
-	while (1) {
-		// Population_[static_cast<int>(R::runif(0,nPopulationSize_))];
-		Parent1_ = FeasibleSolutionGenerator_.getRandomFeasibleSolution();
-		Parent2_ = FeasibleSolutionGenerator_.getRandomFeasibleSolution();
-		if (Parent1_ != Parent2_) {
-			break;
-		}
-	}
-	//cout << "P1:" << Parent1_ << endl;
-	//cout << "P2:" << Parent2_ << endl;
-}
-
-void SIMSEMI::CGeneticAlgorithm::crossover()
-{
-	size_t cp = 0;
-	double r = R::runif(0,1);
-	if (r < dblCrossoverRate_) {
-		while (1) {
-			// clear offspring
-			JobContainer().swap(Offspring_);
-			cp = static_cast<int>(R::runif(0,Parent1_.size()));
-			/*
-				       cp
-				    |  |   |
-				p1 1093457682
-				p2 2193468750
-				o  1093246875
-			*/
-
-			Offspring_.insert(Offspring_.begin(), Parent1_.begin(), Parent1_.begin()+cp);
-			for (size_t i = 0 ; i < Parent2_.size() ; i++) {
-				if ( find(Offspring_.begin(), Offspring_.end(), Parent2_[i]) == Offspring_.end() ) {
-					Offspring_.push_back(Parent2_[i]);
-				}
+		for (int i = 0 ; i < nGenerationLoopLimit_ ; i++) {
+			Selection();
+			Crossover();
+			Mutation();
+			lbs = FeasibleSolutionGenerator_.EvaluateOperProc(Offspring_);
+			//minimize makespan
+			if (gbs > lbs) {
+				gbs = lbs;
+				GlobalBestSolution_ = Offspring_;
+				//EvaluatedVals_.push_back(lbs);
+				cout << "Global Best Solution's evaluated value:" << lbs << endl;
+				cout << GlobalBestSolution_ << endl;
 			}
+			EvaluatedVals_.push_back(gbs);
+		}
 
-			if (FeasibleSolutionGenerator_.checkPolicy(Offspring_)) break;
+		FeasibleSolutionGenerator_.MakeGanttTableData(GlobalBestSolution_);
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
+	}
+}
+
+void SIMSEMI::CGeneticAlgorithm::SetPopulation()
+{
+	try {
+		Population_ = FeasibleSolutionGenerator_.GetRandomFeasibleSolutions(nPopulationSize_, Population_);
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
+	}
+}
+
+const SIMSEMI::OperationContainer SIMSEMI::CGeneticAlgorithm::GetBestSolutionInPopulation(const OperationOrderContainer& population)
+{
+	size_t nPosLocalBest = 0;
+
+	try {
+		double lbs = 0.;
+		for (size_t i = 0 ; i < population.size() ; i++ ) {
+			if (lbs < FeasibleSolutionGenerator_.EvaluateOperProc(population[i])) {
+				nPosLocalBest = i;
+			}
 		}
 	}
-	//cout << "Offspring:" <<  Offspring_ << endl;
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
+	}
+	return population[nPosLocalBest];
 }
 
-void SIMSEMI::CGeneticAlgorithm::mutation()
+void SIMSEMI::CGeneticAlgorithm::Selection()
 {
-	double r = R::runif(0,1);
-	if (r < dblMutationRate_) {
-		size_t cp1 = static_cast<int>(R::runif(0,Offspring_.size()));
-		size_t cp2 = static_cast<int>(R::runif(0,Offspring_.size()));
-		swap(Offspring_[cp1].machine, Offspring_[cp2].machine);
+	try {
+		while (1) {
+			Parent1_ = GlobalBestSolution_;
+			Parent2_ = GetBestSolutionInPopulation(FeasibleSolutionGenerator_.GetRandomFeasibleSolutions(nPopulationSize_));
+			if (Parent1_ != Parent2_) {
+				break;
+			}
+		}
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
 	}
 }
 
-void SIMSEMI::CGeneticAlgorithm::decode()
+void SIMSEMI::CGeneticAlgorithm::Crossover()
 {
+	try {
+		size_t cp = 0;
+		double r = R::runif(0,1);
+		if (r < dblCrossoverRate_) {
+			while (1) {
+				// clear offspring
+				OperationContainer().swap(Offspring_);
+				cp = static_cast<int>(R::runif(0,Parent1_.size()));
+				/*
+						   cp
+						|  |   |
+					p1 1093457682
+					p2 2193468750
+					o  1093246875
+				*/
 
+				Offspring_.insert(Offspring_.begin(), Parent1_.begin(), Parent1_.begin()+cp);
+				for (size_t i = 0 ; i < Parent2_.size() ; i++) {
+					if ( find(Offspring_.begin(), Offspring_.end(), Parent2_[i]) == Offspring_.end() ) {
+						Offspring_.push_back(Parent2_[i]);
+					}
+				}
+
+				if (FeasibleSolutionGenerator_.CheckPolicy(Offspring_)) break;
+			}
+		}
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
+	}
 }
 
-void SIMSEMI::CGeneticAlgorithm::encode()
+void SIMSEMI::CGeneticAlgorithm::Mutation()
 {
-
+	try {
+		double r = R::runif(0,1);
+		if (r < dblMutationRate_) {
+			size_t cp1 = static_cast<int>(R::runif(0,Offspring_.size()));
+			size_t cp2 = static_cast<int>(R::runif(0,Offspring_.size()));
+			swap(Offspring_[cp1].nMachine, Offspring_[cp2].nMachine);
+		}
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+	catch (...) {
+		cerr << __func__ << ":Unknown error has been caugth." << endl;
+		throw domain_error("Unknown error");
+	}
 }
-
-void SIMSEMI::CGeneticAlgorithm::statistics()
-{
-
-}
-

@@ -8,8 +8,8 @@
 
 //! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
-	//! SIMSEMI Exception
-	class Exception : public exception
+	//! Semiconductor Simulation Exception
+	class SSException : public exception
 	{
 	public:
 		virtual const char* what() const throw();

@@ -18,10 +18,10 @@ namespace SIMSEMI {
 		CProbeCard( const CProbeCard& rhs ) { ProbCardInfo_ = rhs.ProbCardInfo_; }
         //! destructor
         virtual ~CProbeCard();
-        //! set Product Information
-        void setProductInfo( const ProbeCardInfoType& ProbCardInfo );
-        //! get Product Information
-        const ProbeCardInfoType getProdInfo() const { return ProbCardInfo_; }
+        //! Set Product Information
+        void SetProductInfo( const ProbeCardInfoType& ProbCardInfo );
+        //! Get Product Information
+        const ProbeCardInfoType GetProdInfo() const { return ProbCardInfo_; }
 
     protected:
 

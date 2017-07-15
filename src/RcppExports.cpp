@@ -5,25 +5,40 @@
 
 using namespace Rcpp;
 
-// TestMain
-List TestMain(const int& n, const int& m, int population, int loop, double crossover, double mutation);
-RcppExport SEXP SimSemi_TestMain(SEXP nSEXP, SEXP mSEXP, SEXP populationSEXP, SEXP loopSEXP, SEXP crossoverSEXP, SEXP mutationSEXP) {
+// TestGenetic
+List TestGenetic(const int& lot, const int& machine, int population, int loop, double crossover, double mutation);
+RcppExport SEXP SimSemi_TestGenetic(SEXP lotSEXP, SEXP machineSEXP, SEXP populationSEXP, SEXP loopSEXP, SEXP crossoverSEXP, SEXP mutationSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const int& >::type n(nSEXP);
-    Rcpp::traits::input_parameter< const int& >::type m(mSEXP);
+    Rcpp::traits::input_parameter< const int& >::type lot(lotSEXP);
+    Rcpp::traits::input_parameter< const int& >::type machine(machineSEXP);
     Rcpp::traits::input_parameter< int >::type population(populationSEXP);
     Rcpp::traits::input_parameter< int >::type loop(loopSEXP);
     Rcpp::traits::input_parameter< double >::type crossover(crossoverSEXP);
     Rcpp::traits::input_parameter< double >::type mutation(mutationSEXP);
-    rcpp_result_gen = Rcpp::wrap(TestMain(n, m, population, loop, crossover, mutation));
+    rcpp_result_gen = Rcpp::wrap(TestGenetic(lot, machine, population, loop, crossover, mutation));
+    return rcpp_result_gen;
+END_RCPP
+}
+// TestHeuristic
+List TestHeuristic(const int& lot, const int& machine, int population, int loop);
+RcppExport SEXP SimSemi_TestHeuristic(SEXP lotSEXP, SEXP machineSEXP, SEXP populationSEXP, SEXP loopSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const int& >::type lot(lotSEXP);
+    Rcpp::traits::input_parameter< const int& >::type machine(machineSEXP);
+    Rcpp::traits::input_parameter< int >::type population(populationSEXP);
+    Rcpp::traits::input_parameter< int >::type loop(loopSEXP);
+    rcpp_result_gen = Rcpp::wrap(TestHeuristic(lot, machine, population, loop));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"SimSemi_TestMain", (DL_FUNC) &SimSemi_TestMain, 6},
+    {"SimSemi_TestGenetic", (DL_FUNC) &SimSemi_TestGenetic, 6},
+    {"SimSemi_TestHeuristic", (DL_FUNC) &SimSemi_TestHeuristic, 4},
     {NULL, NULL, 0}
 };
 

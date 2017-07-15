@@ -2,6 +2,8 @@
 #define __SCHEDULER_HPP__
 
 // SIMSEMI headers
+#include "Types.hpp"
+#include "HeuristicAlgorithm.hpp"
 #include "GeneticAlgorithm.hpp"
 #include "PSOAlgorithm.hpp"
 #include "ACOAlgorithm.hpp"
@@ -22,15 +24,19 @@ namespace SIMSEMI {
 		/*!
 			\param Products information of generated products
 		*/
-		void makeSchedule(const ProductContainer& Products);
+		void MakeSchedule();
+
     protected:
 
     private:
-		//! make a data set of the gantt chart
+		//! make a data Set of the gantt chart
 		/*!
 			return a file name
 		*/
-		const std::string makeGanttData();
+		const std::string MakeGanttData();
+
+		//! heuristic algorithm
+		CHeuristicAlgorithm HeuristicAlgo_;
 		//! genetic algorithm
 		CGeneticAlgorithm GeneticAlgo_;
 		//! ant colony optimization algirthm

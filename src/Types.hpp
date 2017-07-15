@@ -10,94 +10,102 @@
 #include <string>
 #include <ostream>
 #include <sstream>
+#include <stdexcept>
+
 #include <Rcpp.h>
 
 //! the namespace of the simulation for the manufacturing semiconductor process
 namespace SIMSEMI {
     //! vector types
+	typedef std::vector<int>	Vec_INT;
+	typedef std::vector<double> Vec_DBL;
     typedef std::vector<std::string> Vec_STR;
-    //! type of product information, first is a partid, second is a sortflag(is same stepid)
-    typedef std::pair<std::string, std::string> ProcessInfoType, ProbeCardInfoType;
+	//! type of product information, first is a part, second is a step
+    typedef std::pair<int, int> ProcessInfoType, ProbeCardInfoType;
 
 	//! Attribute of Products
 	struct ProductAttributeType
 	{
-		typedef std::vector<double> TestTimeContainer;
 		//! clear all members
-		void clear();
-
-		std::string strPartID;			///< Product ID
-		TestTimeContainer TestTimes;	///< Test time of each test step
-		int nSteps;						///< process step count
-		double dblProdYieldMean;		///< average of yield of a product
-		double dblProdYieldStdDev;		///< standard deviation of yield of a product
-		double dblPrice;				///< price per wafer
+		void Clear();
+		int nPart;					///< Product ID
+		int nStepCnt;				///< process step count
+		Vec_DBL ProcTimes;			///< process time of each test step
+		double dblProdYieldMean;	///< average of yield of a product
+		double dblProdYieldStdDev;	///< standard deviation of yield of a product
+		double dblPrice;			///< price per wafer
 	};
 
 	//! Attribute of Machines
 	struct MachineAttributeType
 	{
 		//! clear all members
-		void clear();
-		std::string strEqpID;			///< equipment ID
-		std::string strModel;			///< equipment type, kind of maker
-		double dblLevel;				///< condition level 0. ~ 1., it is related the machine performance and error
-		double dblLimitRateOperation;	///< maximum operation rate 0. ~ 1.
+		void Clear();
+		int nMachine;				///< Mdchine ID
+		double dblLevel;			///< condition level 0. ~ 1., it is related the machine performance and error
+		double dblLimitRateOperation;///< maximum operation rate 0. ~ 1.
 	};
 
 	//! machine log
 	struct MachineLogType
 	{
 		//! clear all members
-		void clear();
+		void Clear();
 		//! to string
 		const std::string ToString();
 
-		std::string strPartID;
-		std::string strLotID;
-		int nWaferNo;
+		int nPart;
+		int nLot;
 		int nStep;
+		int nMachine;
+		int nWaferNo;
+		double dblYield;
 		double dblElapsedTime;
 	};
 
-	//! operation type
-	/*
-		O (job, step, machine), and time is depend on the job and the step and the rate of the performance of the machine
+	/*! operation type
+		information of the process of the operation, derived class from OperationType
+		O(lot, step) depends on the lot and the step
 	*/
 	struct OperationType {
-		//! constructor overloading, include default values
-		OperationType(int i = -1, int j = -1, int k = -1, int t = static_cast<int>(R::runif(20,100))) :job(i), step(j), machine(k), prctime(t) {}
-		int job;		///< number of job
-		int step;		///< number of step
-		int machine;	///< number of machine
-		int prctime;	///< process time
-		//! is empty
-		bool empty() const
+		//! constructor
+		OperationType(int lot = -1, int step = -1, int machine = -1, double proctime = 0., double starttime = 0., double endtime = 0)
+			: nLot(lot), nStep(step), nMachine(machine), dblProcTime(proctime), dblStartTime(starttime), dblEndTime(endtime) {}
+		//! destructor
+		~OperationType() {}
+		//! init
+		virtual void Init()
 		{
-			if (job == -1 || step == -1 || machine == -1) {
+			nLot = nStep = nMachine = -1;
+			dblStartTime = dblEndTime = 0.;
+		}
+		//! is empty
+		bool Empty() const
+		{
+			if (nLot == -1 || nStep == -1) {
 				return true;
 			}
 			else {
 				return false;
 			}
 		}
-		//! operator== overloading
-		bool operator==(const OperationType& op) const
+		//! overloading operator==
+		bool operator==(const OperationType& o) const
 		{
-			if (job == op.job && step == op.step) {
+			if (nLot == o.nLot && nStep == o.nStep /*&& nMachine == o.nMachine*/) {
 				return true;
 			}
 			return false;
 		}
-
-		bool operator!=(const OperationType& op) const
+		//! overloading operator!=
+		bool operator!=(const OperationType& o) const
 		{
-			return !(*this == op);
+			return !(*this == o);
 		}
 		//! operator< overloading
 		bool operator<(const OperationType& op) const
 		{
-			if (job < op.job || (job == op.job && step < op.step)) {
+			if (nLot < op.nLot || (nLot == op.nLot && nStep < op.nStep)) {
 				return true;
 			}
 			return false;
@@ -106,30 +114,24 @@ namespace SIMSEMI {
 		const std::string ToString() const
 		{
 			std::ostringstream oss;
-			oss << "O(" << job << ',' << step << ',' << machine << ',' << prctime << ')';
+			oss << "O(" << nLot << ',' << nStep << ',' << nMachine << ',' << dblProcTime << ')';
 			return oss.str();
 		}
-	};
 
-	struct OperationTimeType {
-		OperationType Operation;
-		double dblStartTime;
-		double dblEndTime;
+		int nLot;			///< lot id
+		int nStep;			///< step id
+		int nMachine;		///< machine id
+		double dblProcTime;	///< process time
+		double dblStartTime;///< time of the operation of the lot
+		double dblEndTime;	///< Job end time
 	};
 
 	//-------------------------------------------------------------------------
 	// define conatiners
-	typedef std::vector<int>	Vec_INT;
-	typedef std::vector<double> Vec_DBL;
-	typedef std::vector<std::string> Vec_STR;
-
-	//! define the container of products
-	typedef std::vector<ProductAttributeType> ProductContainer;
-
-	//! type define the container of OperationTypes
-	typedef std::vector<OperationType> JobContainer;
-	//! container of job container
-	typedef std::vector<JobContainer> JobsContainer;
+	//! container of operation process type
+	typedef std::vector< OperationType > OperationContainer;
+	//! order operations to machine using the OperationType of the vector container
+	typedef std::vector< OperationContainer > OperationOrderContainer;
 }
 
 #endif // __TYPES_HPP__

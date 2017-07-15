@@ -2,30 +2,22 @@
 
 #include <sstream>
 
-void SIMSEMI::ProductAttributeType::clear()
+void SIMSEMI::ProductAttributeType::Clear()
 {
-	strPartID.clear();
-	TestTimes.clear();
-	nSteps = 0;
-	dblProdYieldMean = 0.;
-	dblProdYieldStdDev = 0.;
-	dblPrice = 0.;
+	ProcTimes.clear();
+	nPart = nStepCnt = -1;
+	dblProdYieldMean = dblProdYieldStdDev = dblPrice = 0.;
 }
 
-void SIMSEMI::MachineAttributeType::clear()
+void SIMSEMI::MachineAttributeType::Clear()
 {
-	strEqpID.clear();
-	strModel.clear();
-	dblLevel = 0.;
-	dblLimitRateOperation = 0.;
+	nMachine = -1;
+	dblLevel = dblLimitRateOperation = 0.;
 }
 
-void SIMSEMI::MachineLogType::clear()
+void SIMSEMI::MachineLogType::Clear()
 {
-	strPartID.clear();
-	strLotID.clear();
-	nWaferNo = 0;
-	nStep = 0;
+	nPart = nLot = nWaferNo = nStep = nMachine = -1;
 	dblElapsedTime = 0.;
 }
 
@@ -33,10 +25,12 @@ const std::string SIMSEMI::MachineLogType::ToString()
 {
 	std::ostringstream oss;
 
-	oss << strPartID
-		<< ',' << nStep
-		<< ',' << strLotID
+	oss << nPart
+		<< ',' << nLot
 		<< ',' << nWaferNo
+		<< ',' << nStep
+		<< ',' << nMachine
+		<< ',' << dblYield
 		<< ',' << dblElapsedTime
 		;
 
