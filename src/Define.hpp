@@ -15,4 +15,16 @@
 #define SIMSEMI_D_TEST_TIME_MEAN		45.0
 #define SIMSEMI_D_TEST_TIME_MAX			120.0
 
+#ifdef _DEBUG
+#include <iostream>
+#include <typeinfo>
+#define SIMSEMI_MEMBER_FUNC				std::cout << typeid(*this).name() << "::" << __FUNCTION__
+#define SIMSEMI_MEMBER_FUNC_START		SIMSEMI_MEMBER_FUNC << ":START" << std::endl;
+#define SIMSEMI_MEMBER_FUNC_END			SIMSEMI_MEMBER_FUNC << ":END" << std::endl;
+#else
+#define SIMSEMI_MEMBER_FUNC
+#define SIMSEMI_MEMBER_FUNC_START
+#define SIMSEMI_MEMBER_FUNC_END
+#endif
+
 #endif // __DEFINE_HPP

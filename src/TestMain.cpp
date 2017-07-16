@@ -10,15 +10,20 @@ using namespace Rcpp;
 using namespace SIMSEMI;
 
 // [[Rcpp::export]]
-List TestGenetic(const int& lot, const int& machine, int population = 5000, int loop = 500, double crossover = 1., double mutation = 0.2)
+List TestGenetic(const int& lot = 3, const int& machine = 3, int population = 5000, int loop = 500, double crossover = 1., double mutation = 0.2)
 {
 	ostringstream oss;
 	CGeneticAlgorithm ga(population, loop, crossover, mutation);
 
 	try {
-		int arrStep[3] = { 3, 3, 3 };//, 2, 2, 1};
-		int arrPrcTime[3][3] = {
+		const int nLotCnt = 5;
+		const int nStepMax = 3;
+		const int nMachine = 5;
+		int arrStep[nLotCnt] = { 3, 3, 3, 3, 3};
+		int arrPrcTime[nLotCnt][nStepMax] = {
 			{30, 14, 45}
+			,{15, 25, 30}
+			,{25, 10, 10}
 			,{16, 22, 51}
 			,{27, 5, 35}
 		};
@@ -32,7 +37,7 @@ List TestGenetic(const int& lot, const int& machine, int population = 5000, int 
 
 		for (int j = 0; j < nOperationCnt; j++) {
 			for (int s = 0; s < arrStep[j]; s++) {
-				Operations.push_back(OperationType(j, s, 0, arrPrcTime[j][s]));
+				Operations.push_back(OperationType(j, s, -1, arrPrcTime[j][s]));
 			}
 		}
 		/*
@@ -47,7 +52,7 @@ List TestGenetic(const int& lot, const int& machine, int population = 5000, int 
 		 */
 
 		cout << Operations << endl;
-		ga.ExecOptimalSolutionGeneration(Operations, lot, machine);
+		ga.ExecOptimalSolutionGeneration(Operations, nLotCnt, nMachine); // lot, machine
 		OperationContainer lots = ga.GetOptimalSolution();
 		oss << lots;
     } catch(std::exception &ex) {

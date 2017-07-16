@@ -277,7 +277,6 @@ void SIMSEMI::CFeasibleSolutionGenerator::InitMachine(OperationContainer& Operat
 	try {
 		if (Operations.empty())
 			return;
-
 		for (size_t i = 0 ; i < Operations.size() ; i++) {
 			Operations[i].nMachine =  static_cast<int>(R::runif(0,(nMachineCnt_)));
 		}

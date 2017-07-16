@@ -41,7 +41,9 @@ void SIMSEMI::CGeneticAlgorithm::ExecOptimalSolutionGeneration(const OperationCo
 			Selection();
 			Crossover();
 			Mutation();
-			lbs = FeasibleSolutionGenerator_.EvaluateOperProc(Offspring_);
+			if (!Offspring_.empty()) {
+				lbs = FeasibleSolutionGenerator_.EvaluateOperProc(Offspring_);
+			}
 			//minimize makespan
 			if (gbs > lbs) {
 				gbs = lbs;
@@ -68,7 +70,7 @@ void SIMSEMI::CGeneticAlgorithm::ExecOptimalSolutionGeneration(const OperationCo
 void SIMSEMI::CGeneticAlgorithm::SetPopulation()
 {
 	try {
-		Population_ = FeasibleSolutionGenerator_.GetRandomFeasibleSolutions(nPopulationSize_, Population_);
+		Population_ = FeasibleSolutionGenerator_.GetRandomFeasibleSolutions(nPopulationSize_);
 	}
 	catch (std::exception& error) {
 		cerr << __func__ << ':' << error.what() << endl;
@@ -112,6 +114,10 @@ void SIMSEMI::CGeneticAlgorithm::Selection()
 			if (Parent1_ != Parent2_) {
 				break;
 			}
+		}
+		// evaluate 기준이 make span 이기 때문에 작을 수록 좋다. 좋은 것을 GlobalBestSolution_ 으로 한다.
+		if ( FeasibleSolutionGenerator_.EvaluateOperProc(Parent1_) > FeasibleSolutionGenerator_.EvaluateOperProc(Parent2_) ) {
+			GlobalBestSolution_ = Parent2_;
 		}
 	}
 	catch (std::exception& error) {
