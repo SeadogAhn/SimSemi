@@ -25,7 +25,7 @@ namespace SIMSEMI {
 		//! Get to be generated a Job container of a global best solution
 		const OperationContainer& GetOptimalSolution() const { return GlobalBestSolution_; }
 		//! Get evaluated values
-		const Vec_DBL& GetEvaluatedVals() const { return EvaluatedVals_; }
+		const EvaluationValContainer& GetEvaluatedVals() const { return EvaluatedVals_; }
 	protected:
 
 	private:
@@ -46,7 +46,7 @@ namespace SIMSEMI {
 
 		int nPopulationSize_;		///< population size
 		int nGenerationLoopLimit_;	///< generation loop limit
-		Vec_DBL EvaluatedVals_;		///< evaluated values of the generated feasible solutions
+		EvaluationValContainer EvaluatedVals_;		///< evaluated values of the generated feasible solutions
 		CFeasibleSolutionGenerator FeasibleSolutionGenerator_;	///< feasible solution generator
 	};
 }

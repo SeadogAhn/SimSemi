@@ -34,8 +34,8 @@ void SIMSEMI::CGeneticAlgorithm::ExecOptimalSolutionGeneration(const OperationCo
 		// first time to initialize the poputlation and the global best solution.
 		SetPopulation();
 		GlobalBestSolution_ = GetBestSolutionInPopulation(Population_);
-		double gbs = FeasibleSolutionGenerator_.EvaluateOperProc(GlobalBestSolution_);
-		double lbs = numeric_limits<double>::max();
+		EvaluationOfSolutionType gbs = FeasibleSolutionGenerator_.EvaluateOperProc(GlobalBestSolution_);
+		EvaluationOfSolutionType lbs = gbs;
 
 		for (int i = 0 ; i < nGenerationLoopLimit_ ; i++) {
 			Selection();
@@ -48,8 +48,8 @@ void SIMSEMI::CGeneticAlgorithm::ExecOptimalSolutionGeneration(const OperationCo
 			if (gbs > lbs) {
 				gbs = lbs;
 				GlobalBestSolution_ = Offspring_;
-				//EvaluatedVals_.push_back(lbs);
-				cout << "Global Best Solution's evaluated value:" << lbs << endl;
+				cout << "Global Best Solution's evaluated value(Makespan, Max workload, Total workload:"
+					<< gbs.dblMakespan << ',' << gbs.dblMaxWorkload << ',' << gbs.dblTotalWorkload << endl;
 				cout << GlobalBestSolution_ << endl;
 			}
 			EvaluatedVals_.push_back(gbs);
@@ -87,7 +87,7 @@ const SIMSEMI::OperationContainer SIMSEMI::CGeneticAlgorithm::GetBestSolutionInP
 	size_t nPosLocalBest = 0;
 
 	try {
-		double lbs = 0.;
+		EvaluationOfSolutionType lbs;
 		for (size_t i = 0 ; i < population.size() ; i++ ) {
 			if (lbs < FeasibleSolutionGenerator_.EvaluateOperProc(population[i])) {
 				nPosLocalBest = i;

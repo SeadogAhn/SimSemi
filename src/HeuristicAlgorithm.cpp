@@ -28,8 +28,9 @@ void SIMSEMI::CHeuristicAlgorithm::ExecOptimalSolutionGeneration(const Operation
 {
 	try {
 		FeasibleSolutionGenerator_.SetOperation(Operations, nLotCnt, nMachineCnt);
-		double gbs = numeric_limits<double>::max();
-		double lbs = 0;
+		GlobalBestSolution_ = FeasibleSolutionGenerator_.GetRandomFeasibleSolution();
+		EvaluationOfSolutionType gbs = FeasibleSolutionGenerator_.EvaluateOperProc(GlobalBestSolution_);
+		EvaluationOfSolutionType lbs;
 		for (int i = 0 ; i < nGenerationLoopLimit_ ; i++) {
 			SetPopulation();
 			Selection();
@@ -38,7 +39,8 @@ void SIMSEMI::CHeuristicAlgorithm::ExecOptimalSolutionGeneration(const Operation
 			if (gbs > lbs) {
 				gbs = lbs;
 				GlobalBestSolution_ = LocalBestSolution_;
-				cout << "Global Best Solution's evaluated value:" << gbs << endl;
+				cout << "Global Best Solution's evaluated value(Makespan, Max workload, Total workload:"
+					<< gbs.dblMakespan << ',' << gbs.dblMaxWorkload << ',' << gbs.dblTotalWorkload << endl;
 				cout << GlobalBestSolution_ << endl;
 			}
 			EvaluatedVals_.push_back(gbs);
@@ -74,7 +76,7 @@ void SIMSEMI::CHeuristicAlgorithm::SetPopulation()
 void SIMSEMI::CHeuristicAlgorithm::Selection()
 {
 	try {
-		double lbs = 0.;
+		EvaluationOfSolutionType lbs;
 		size_t nPosLocalBest;
 		for (int i = 0 ; i < nPopulationSize_ ; i++ ) {
 			if (lbs < FeasibleSolutionGenerator_.EvaluateOperProc(Population_[i])) {

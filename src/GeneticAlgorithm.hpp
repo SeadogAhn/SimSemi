@@ -31,7 +31,7 @@ namespace SIMSEMI {
 		//! Get to be generated a Job container of a global best solution
 		const OperationContainer& GetOptimalSolution() const { return GlobalBestSolution_; }
 		//! Get evaluated values
-		const Vec_DBL& GetEvaluatedVals() const { return EvaluatedVals_; }
+		const EvaluationValContainer& GetEvaluatedVals() const { return EvaluatedVals_; }
 	protected:
 
 	private:
@@ -67,7 +67,7 @@ namespace SIMSEMI {
 		//! Mutation rate
 		double dblMutationRate_;
 		//! evaluated values of the generated feasible solutions
-		Vec_DBL EvaluatedVals_;
+		EvaluationValContainer EvaluatedVals_;
 		//! feasible solution generator
 		CFeasibleSolutionGenerator FeasibleSolutionGenerator_;
 	};

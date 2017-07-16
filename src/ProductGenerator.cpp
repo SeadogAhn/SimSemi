@@ -73,7 +73,8 @@ void SIMSEMI::CProductGenerator::AddNewDemand(int nPart, int nQuantity)
 
 SIMSEMI::CProductGenerator::LotContainer SIMSEMI::CProductGenerator::MakeLots(int nQuantity)
 {
-	static int nLot = 1;
+	// start Lot No. is 0 and it'll be accumulated one by one
+	static int nLot = 0;
 	LotContainer Lots;
 	int nWaferCnt = 0;
 

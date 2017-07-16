@@ -202,6 +202,16 @@ namespace SIMSEMI {
 	bool operator==(const OperationContainer& j1, const OperationContainer& j2);
 	//! compare not equare
 	bool operator!=(const OperationContainer& j1, const OperationContainer& j2);
+	/*! overloading operator<
+		opeartor< is meaning that makespan is less and total workload, max workload are greater.
+		comparison priority is makespan -> total workload -> max workload.
+	*/
+	bool operator<(const EvaluationOfSolutionType& eos1, const EvaluationOfSolutionType& eos2);
+	/*! overloading operator<
+		opeartor< is meaning that makespan is less and total workload, max workload are greater.
+		comparison priority is makespan -> total workload -> max workload.
+	*/
+	bool operator>(const EvaluationOfSolutionType& eos1, const EvaluationOfSolutionType& eos2);
 
 	///////////////////////////////////////////////////////////////////////////
 	// utility functions

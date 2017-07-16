@@ -83,13 +83,13 @@ void SIMSEMI::CHiResElapsedTime::reSet ()
 
 //-----------------------------------------------------------------------------
 //! operator<< overloading for printing OperationType to out stream directly
-std::ostream& SIMSEMI::operator<<(std::ostream& os, const OperationType& op)
+std::ostream& SIMSEMI::operator<<(std::ostream& os, const SIMSEMI::OperationType& op)
 {
 	os << op.ToString();
 	return os;
 }
 //! operator<< overloading for printing OperationContainer to out stream directly
-std::ostream& SIMSEMI::operator<<(std::ostream& os, const OperationContainer& Operations)
+std::ostream& SIMSEMI::operator<<(std::ostream& os, const SIMSEMI::OperationContainer& Operations)
 {
 	for (size_t j = 0; j < Operations.size() - 1; j++) {
 		os << Operations[j].ToString() << ' ';
@@ -99,7 +99,7 @@ std::ostream& SIMSEMI::operator<<(std::ostream& os, const OperationContainer& Op
 	return os;
 }
 
-bool SIMSEMI::operator==(const OperationContainer& j1, const OperationContainer& j2)
+bool SIMSEMI::operator==(const SIMSEMI::OperationContainer& j1, const SIMSEMI::OperationContainer& j2)
 {
 	if (j1.size() != j2.size()) {
 		return false;
@@ -112,7 +112,48 @@ bool SIMSEMI::operator==(const OperationContainer& j1, const OperationContainer&
 	return true;
 }
 
-bool SIMSEMI::operator!=(const OperationContainer& j1, const OperationContainer& j2)
+bool SIMSEMI::operator!=(const SIMSEMI::OperationContainer& j1, const SIMSEMI::OperationContainer& j2)
 {
 	return !(j1==j2);
+}
+
+/*! overloading operator<
+	opeartor< is meaning that makespan is less and total workload, max workload are greater.
+	comparison priority is makespan -> total workload -> max workload.
+*/
+bool SIMSEMI::operator<(const SIMSEMI::EvaluationOfSolutionType& eos1, const SIMSEMI::EvaluationOfSolutionType& eos2)
+{
+	if (eos1.dblMakespan < eos2.dblMakespan) {
+		return true;
+	}
+	else if (eos1.dblMakespan == eos2.dblMakespan
+		&& eos1.dblTotalWorkload > eos2.dblTotalWorkload ) {
+		return true;
+	}
+	else if (eos1.dblMakespan == eos2.dblMakespan
+		&& eos1.dblTotalWorkload == eos2.dblTotalWorkload
+		&& eos1.dblMaxWorkload > eos2.dblMaxWorkload) {
+		return true;
+	}
+	return false;
+}
+/*! overloading operator<
+	opeartor< is meaning that makespan is less and total workload, max workload are greater.
+	comparison priority is makespan -> total workload -> max workload.
+*/
+bool SIMSEMI::operator>(const SIMSEMI::EvaluationOfSolutionType& eos1, const SIMSEMI::EvaluationOfSolutionType& eos2)
+{
+	if (eos1.dblMakespan > eos2.dblMakespan) {
+		return true;
+	}
+	else if (eos1.dblMakespan == eos2.dblMakespan
+		&& eos1.dblTotalWorkload < eos2.dblTotalWorkload ) {
+		return true;
+	}
+	else if (eos1.dblMakespan == eos2.dblMakespan
+		&& eos1.dblTotalWorkload == eos2.dblTotalWorkload
+		&& eos1.dblMaxWorkload < eos2.dblMaxWorkload) {
+		return true;
+	}
+	return false;
 }

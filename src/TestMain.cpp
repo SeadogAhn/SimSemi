@@ -60,7 +60,14 @@ List TestGenetic(const int& lot = 3, const int& machine = 3, int population = 50
     } catch(...) {
 		::Rf_error("c++ exception (unknown reason)");
     }
-	return List::create(oss.str(), ga.GetEvaluatedVals());
+
+	EvaluationValContainer eval = ga.GetEvaluatedVals();
+	Vec_DBL vals;
+	for (size_t i=0;i<eval.size();i++) {
+		vals.push_back(eval[i].dblMakespan);
+	}
+
+	return List::create(oss.str(), vals);
 }
 
 
@@ -74,10 +81,8 @@ List TestHeuristic(const int& lot, const int& machine, int population = 5000, in
 		OperationContainer Operations;
 		for (int i = 0 ; i < lot ; i++ ) {
 			int step = static_cast<int>(R::runif(0,3));
-			for ( int j = 0 ; j < step ; j++ ) {
-				OperationType op(i, j);
-				op.dblProcTime = static_cast<int>(R::runif(20,100));
-				Operations.push_back(op);
+			for ( int j = 0 ; j < step+1 ; j++ ) {
+				Operations.push_back(OperationType(i, j, -1, static_cast<int>(R::runif(20,100))));
 			}
 		}
 
@@ -90,6 +95,13 @@ List TestHeuristic(const int& lot, const int& machine, int population = 5000, in
     } catch(...) {
 		::Rf_error("c++ exception (unknown reason)");
     }
-	return List::create(oss.str(), ha.GetEvaluatedVals());
+
+	EvaluationValContainer eval = ha.GetEvaluatedVals();
+	Vec_DBL vals;
+	for (size_t i=0;i<eval.size();i++) {
+		vals.push_back(eval[i].dblMakespan);
+	}
+
+	return List::create(oss.str(), vals);
 }
 

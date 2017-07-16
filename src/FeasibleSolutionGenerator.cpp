@@ -197,17 +197,20 @@ void SIMSEMI::CFeasibleSolutionGenerator::OrderOperationMachine( const Operation
 	}
 }
 
-double SIMSEMI::CFeasibleSolutionGenerator::EvaluateOperProc(const OperationContainer& Operations)
+const SIMSEMI::EvaluationOfSolutionType SIMSEMI::CFeasibleSolutionGenerator::EvaluateOperProc(const OperationContainer& Operations)
 {
-	double val = 0.;
+	EvaluationOfSolutionType Val;
 
 	try {
 		OrderOperationMachine(Operations);
-
 		for ( size_t nPosMachine = 0 ; nPosMachine < OperationsOrder_.size() ; nPosMachine++ ) {
+			double dblWorkload = 0;
 			for ( size_t nPosJobOrder = 0 ; nPosJobOrder < OperationsOrder_[nPosMachine].size() ; nPosJobOrder++ ) {
-				val = max(OperationsOrder_[nPosMachine][nPosJobOrder].dblEndTime, val);
+				Val.dblMakespan = max(OperationsOrder_[nPosMachine][nPosJobOrder].dblEndTime, Val.dblMakespan);
+				dblWorkload += OperationsOrder_[nPosMachine][nPosJobOrder].dblProcTime;
 			}
+			Val.dblMaxWorkload = max(dblWorkload, Val.dblMaxWorkload);
+			Val.dblTotalWorkload += dblWorkload;
 		}
 	}
 	catch (std::exception& error) {
@@ -219,7 +222,7 @@ double SIMSEMI::CFeasibleSolutionGenerator::EvaluateOperProc(const OperationCont
 		throw domain_error("Unknown error");
 	}
 
-	return val;
+	return Val;
 }
 
 void SIMSEMI::CFeasibleSolutionGenerator::MakeGanttTableData(const OperationContainer& Operations, std::string strFileName)

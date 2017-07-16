@@ -55,7 +55,7 @@ namespace SIMSEMI {
 		/*!
 			\param Operations
 		*/
-		double EvaluateOperProc(const OperationContainer& Operations);
+		const EvaluationOfSolutionType EvaluateOperProc(const OperationContainer& Operations);
 		//! make table data for drawing gantt chart
 		/*!
 			\param Job order container

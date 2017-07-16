@@ -126,12 +126,30 @@ namespace SIMSEMI {
 		double dblEndTime;	///< Job end time
 	};
 
+	//! evaluated solution
+	/*!
+		의미적으로는 가장 작은 makespan을 찾는 것.
+		단 동일한 makespan의 경우 totalworkload가 큰 것을 좋은 것으로 한다.
+	*/
+	struct EvaluationOfSolutionType
+	{
+		//! oveloading constructor
+		EvaluationOfSolutionType(double ms=0, double mwl=0, double twl=0)
+			: dblMakespan(ms), dblMaxWorkload(mwl), dblTotalWorkload(ms) {}
+
+		double dblMakespan;			///< makespan
+		double dblMaxWorkload;		///< max workload
+		double dblTotalWorkload;	///< max
+	};
+
 	//-------------------------------------------------------------------------
 	// define conatiners
 	//! container of operation process type
 	typedef std::vector< OperationType > OperationContainer;
 	//! order operations to machine using the OperationType of the vector container
 	typedef std::vector< OperationContainer > OperationOrderContainer;
+	//! value container of the evaluated solutions
+	typedef std::vector< EvaluationOfSolutionType > EvaluationValContainer;
 }
 
 #endif // __TYPES_HPP__
