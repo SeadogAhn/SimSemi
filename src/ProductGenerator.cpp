@@ -54,6 +54,23 @@ void SIMSEMI::CProductGenerator::InitProductMasterPlan(const std::string& strFil
 	}
 }
 
+void SIMSEMI::CProductGenerator::AddNewDemand(int nPart, int nQuantity)
+{
+	try {
+		LotContainer tempLots = MakeLots(nQuantity);
+		if (Products_.find(nPart) != Products_.end()) {
+			Products_[nPart].insert(Products_[nPart].end(), tempLots.begin(), tempLots.end());
+		}
+		else {
+			Products_.insert(make_pair(nPart, tempLots));
+		}
+	}
+	catch (std::exception& error) {
+		cerr << __func__ << ':' << error.what() << endl;
+		throw error;
+	}
+}
+
 SIMSEMI::CProductGenerator::LotContainer SIMSEMI::CProductGenerator::MakeLots(int nQuantity)
 {
 	static int nLot = 1;

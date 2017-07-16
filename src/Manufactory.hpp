@@ -29,13 +29,12 @@ namespace SIMSEMI {
 
     protected:
 
-
     private:
 		CStocker StockerInput_;		///< stock input lots
+		CStocker StockerOutput_;	///< stock output lots
 		CStocker StockerHold_;		///< sotck held lots
 		MachineContainer Machines_;	///< container of machines
 		ProbeCardContainer ProbeCards_;	///< container of probecards
-
     };
 }
 #endif //__MANIFACTURE_HPP__

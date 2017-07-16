@@ -41,7 +41,6 @@ namespace SIMSEMI {
 		CScheduler Scheduler_;
 		CDispatcher Dispatcher_;
 		CManufactory Manufactory_;
-
     };
 }
 #endif //__MANIFACTURING_OPERATION_HPP__

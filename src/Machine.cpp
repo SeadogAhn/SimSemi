@@ -35,7 +35,6 @@ void SIMSEMI::CMachine::SetMachineAttribute( const MachineAttributeType& ma )
 	bStartupMachine_ = true;
 }
 
-
 void SIMSEMI::CMachine::SetProbeCard( const CProbeCard& pc )
 {
 	if (bStartupMachine_)
