@@ -24,7 +24,8 @@ namespace SIMSEMI {
         const CLot Unload(const CLot& lot);
 		//! load a lot
         void Load(const CLot& lot);
-
+		//! get lot size
+		int GetSize() const { return Lots_.size(); }
     protected:
 
     private:

@@ -16,7 +16,7 @@ namespace SIMSEMI {
     {
     public:
 		typedef std::vector< CLot > LotContainer;
-		// key : partid, value : lot
+		// key : partid = the number of the product, value : lot
 		typedef std::map< int, LotContainer > ProductContainer;
 		//! ;default constructor
     	CProductGenerator();
@@ -27,6 +27,12 @@ namespace SIMSEMI {
 			\param strFileName a file name of master plan
 		*/
 		void InitProductMasterPlan(const std::string& strFileName);
+		//! add new demand product
+		/*!
+			\param nPart new demand product id
+			\param nQuantity quantity of the product
+		*/
+		void AddNewDemand(int nPart, int nQuantity);
 		//! Get the container of the products
 		/*!
 			\param Product Container
